@@ -167,6 +167,7 @@ def select_for():
     fors = [{"name": player['name'], "team": player['team']} for player in all_players if "FOR" in player['position']]
     return jsonify(fors) 
 
+# TODO add a fetch API callback to handle updating team lists when a player is chosen. Add attribute to players like 'Chosen', and set it 
 
 # @app.route('/team_view')
 # def team_view():

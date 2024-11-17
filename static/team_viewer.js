@@ -32,110 +32,370 @@ fetch('/button_scrape', {
         team2_url: team2_url
     })  // Send the matched 'url'
 })            
-    .then(response => response.json())
-    .then(data => {
-        // // Get the list element
-        // const listId = `team${index + 1}-list`;  // Create dynamic ID using the index
-        // const list = document.getElementById(listId);
-        // list.innerHTML = ''; // Clear old data
-        
-        // data.forEach(player => {
-        //     // Add each data element into this list
-        //     const li = document.createElement('li');
-        //     li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
-        //     list.appendChild(li);
-        // });
-    })
-    .catch(error => console.error('Error fetching button scrape data:', error));
-
+    
 document.getElementById('select-gk-btn').addEventListener('click', () => {
     fetch('/select_gk')
         .then(response => response.json())
         .then(data => {
-            const list1 = document.getElementById('team1-list');
-            const list2 = document.getElementById('team2-list');
-            list1.innerHTML = '';
-            list2.innerHTML = '';
+            // Dynamically create a new select element for GK selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
             data.forEach(player => {
-                const li = document.createElement('li');
-                li.textContent = `${player.name}`;
-                if (player.team === team1_name) {
-                    list1.appendChild(li);
-                }
-                else if (player.team === team2_name) {
-                    list2.appendChild(li);
-                }
-            })
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selectedGK = document.getElementById('selected-gk');
+                selectedGK.textContent = select.value;
+            });
         })
+        .catch(error => console.error('Error fetching data:', error));
 });
 
-document.querySelectorAll('.select-def-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        fetch('/select_def')
-            .then(response => response.json())
-            .then(data => {
-                const list1 = document.getElementById('team1-list');
-                const list2 = document.getElementById('team2-list');
-                list1.innerHTML = '';
-                list2.innerHTML = '';
-                data.forEach(player => {
-                    const li = document.createElement('li');
-                    li.textContent = `${player.name}`;
-                    if (player.team === team1_name) {
-                        list1.appendChild(li);
-                    } else if (player.team === team2_name) {
-                        list2.appendChild(li);
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    });
+document.getElementById('select-rb-btn').addEventListener('click', () => {
+    fetch('/select_def')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selectedDEF = document.getElementById('selected-rb');
+                selectedDEF.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-cb1-btn').addEventListener('click', () => {
+    fetch('/select_def')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selectedDEF = document.getElementById('selected-cb1');
+                selectedDEF.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-cb2-btn').addEventListener('click', () => {
+    fetch('/select_def')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selectedDEF = document.getElementById('selected-cb2');
+                selectedDEF.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-lb-btn').addEventListener('click', () => {
+    fetch('/select_def')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selectedDEF = document.getElementById('selected-lb');
+                selectedDEF.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-cdm-btn').addEventListener('click', () => {
+    fetch('/select_mid')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-cdm');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-cm-btn').addEventListener('click', () => {
+    fetch('/select_mid')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-cm');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-cam-btn').addEventListener('click', () => {
+    fetch('/select_mid')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-cam');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-lw-btn').addEventListener('click', () => {
+    fetch('/select_for')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-lw');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-rw-btn').addEventListener('click', () => {
+    fetch('/select_for')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-rw');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+document.getElementById('select-st-btn').addEventListener('click', () => {
+    fetch('/select_for')
+        .then(response => response.json())
+        .then(data => {
+            // Dynamically create a new select element for RB selection
+            const select = document.createElement('select');
+            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+            data.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player.name;
+                option.textContent = `${player.name}, ${player.team}`;
+                select.appendChild(option);
+            });
+
+            // Append to the body or a container
+            const container = document.getElementById('select-container');
+            container.innerHTML = ''; // Clear previous selections
+            container.appendChild(select);
+
+            // Add event listener for selection change
+            select.addEventListener('change', () => {
+                const selected = document.getElementById('selected-st');
+                selected.textContent = select.value;
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
 });
 
 
-document.querySelectorAll('.select-mid-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        fetch('/select_mid')
-            .then(response => response.json())
-            .then(data => {
-                const list1 = document.getElementById('team1-list');
-                const list2 = document.getElementById('team2-list');
-                list1.innerHTML = '';
-                list2.innerHTML = '';
-                data.forEach(player => {
-                    const li = document.createElement('li');
-                    li.textContent = `${player.name}`;
-                    if (player.team === team1_name) {
-                        list1.appendChild(li);
-                    } else if (player.team === team2_name) {
-                        list2.appendChild(li);
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    });
-});
+// document.querySelectorAll('.select-mid-btn').forEach(button => {
+//     button.addEventListener('click', () => {
+//         fetch('/select_mid')
+//             .then(response => response.json())
+//             .then(data => {
+//                 const list1 = document.getElementById('team1-list');
+//                 const list2 = document.getElementById('team2-list');
+//                 list1.innerHTML = '';
+//                 list2.innerHTML = '';
+//                 data.forEach(player => {
+//                     const li = document.createElement('li');
+//                     li.textContent = `${player.name}`;
+//                     if (player.team === team1_name) {
+//                         list1.appendChild(li);
+//                     } else if (player.team === team2_name) {
+//                         list2.appendChild(li);
+//                     }
+//                 });
+//             })
+//             .catch(error => console.error('Error fetching data:', error));
+//     });
+// });
 
 
-document.querySelectorAll('.select-for-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        fetch('/select_for')
-            .then(response => response.json())
-            .then(data => {
-                const list1 = document.getElementById('team1-list');
-                const list2 = document.getElementById('team2-list');
-                list1.innerHTML = '';
-                list2.innerHTML = '';
-                data.forEach(player => {
-                    const li = document.createElement('li');
-                    li.textContent = `${player.name}`;
-                    if (player.team === team1_name) {
-                        list1.appendChild(li);
-                    } else if (player.team === team2_name) {
-                        list2.appendChild(li);
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    });
-});
+// document.querySelectorAll('.select-for-btn').forEach(button => {
+//     button.addEventListener('click', () => {
+//         fetch('/select_for')
+//             .then(response => response.json())
+//             .then(data => {
+//                 const list1 = document.getElementById('team1-list');
+//                 const list2 = document.getElementById('team2-list');
+//                 list1.innerHTML = '';
+//                 list2.innerHTML = '';
+//                 data.forEach(player => {
+//                     const li = document.createElement('li');
+//                     li.textContent = `${player.name}`;
+//                     if (player.team === team1_name) {
+//                         list1.appendChild(li);
+//                     } else if (player.team === team2_name) {
+//                         list2.appendChild(li);
+//                     }
+//                 });
+//             })
+//             .catch(error => console.error('Error fetching data:', error));
+//     });
+// });

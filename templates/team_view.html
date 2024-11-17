@@ -8,20 +8,46 @@
 <body>
     <h1>Team Viewer</h1>
     <button id="select-gk-btn">Select GK</button>
-    <button class="select-def-btn">Select RB</button>
-    <button class="select-def-btn">Select CB</button>
-    <button class="select-def-btn">Select CB</button>
-    <button class="select-def-btn">Select LB</button>
-    <button class="select-mid-btn">Select CDM</button>
-    <button class="select-mid-btn">Select CM</button>
-    <button class="select-mid-btn">Select CAM</button>
-    <button class="select-for-btn">Select LW</button>
-    <button class="select-for-btn">Select RW</button>
-    <button class="select-for-btn">Select ST</button>
+    <button class="select-def-btn" id="select-rb-btn" data-position="RB">Select RB</button>
+    <button class="select-def-btn" id="select-cb1-btn" data-position="CB1">Select CB</button>
+    <button class="select-def-btn" id="select-cb2-btn" data-position="CB2">Select CB</button>
+    <button class="select-def-btn" id="select-lb-btn" data-position="LB">Select LB</button>
+    <button class="select-mid-btn" id="select-cdm-btn">Select CDM</button>
+    <button class="select-mid-btn" id="select-cm-btn">Select CM</button>
+    <button class="select-mid-btn" id="select-cam-btn">Select CAM</button>
+    <button class="select-for-btn" id="select-lw-btn">Select LW</button>
+    <button class="select-for-btn" id="select-rw-btn">Select RW</button>
+    <button class="select-for-btn" id="select-st-btn">Select ST</button>
     <p>Team 1: {{ team1_name }}</p>
-    <ul id="team1-list"></ul>
     <p>Team 2: {{ team2_name }}</p>
-    <ul id="team2-list"></ul>
+    <select id="team-select"></select>
+    <div id="select-container"></div>
+
+    <!-- <ul id="team1-list"></ul>
+    <ul id="team2-list"></ul> -->
+    <h2>Selected XI</h2>
+    <p>GK:</p>
+    <p id="selected-gk">...</p>
+    <p>RB:</p>
+    <p id="selected-rb">...</p>
+    <p>CB:</p>
+    <p id="selected-cb1">...</p>
+    <p>CB:</p>
+    <p id="selected-cb2">...</p>
+    <p>LB:</p>
+    <p id="selected-lb">...</p>
+    <p>CDM:</p>
+    <p id="selected-cdm">...</p>
+    <p>CM:</p>
+    <p id="selected-cm">...</p>
+    <p>CAM:</p>
+    <p id="selected-cam">...</p>
+    <p>LW:</p>
+    <p id="selected-lw">...</p>
+    <p>RW:</p>
+    <p id="selected-rw">...</p>
+    <p>ST:</p>
+    <p id="selected-st">...</p>
     <script src="{{ url_for('static', filename='team_viewer.js') }}"></script>
 </body>
 
