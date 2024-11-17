@@ -1,7 +1,9 @@
 // Define the 'items' array outside the fetch call to make it accessible globally
 let items = [];
-let team1 = null;
-let team2 = null;
+let team1_name = null;
+let team2_name = null;
+let team1_url = null;
+let team2_url = null;
 
 // Function to fetch initial scrape data and populate items (this will run once)
 function fetchInitialData() {
@@ -60,13 +62,13 @@ function configureFuseJS() {
 
     // Event Listener for Dropdown Selection
     resultsDropdown.addEventListener('change', () => {
-        if (team1 === null) {
-            team1 = resultsDropdown.value; // get selected val
-            console.log('Team 1:', team1);
+        if (team1_name === null) {
+            team1_name = resultsDropdown.value; // get selected val
+            console.log('Team 1:', team1_name);
         }
-        else if (team2 === null) {
-            team2 = resultsDropdown.value; // get selected val
-            console.log('Team 2:', team2);
+        else if (team2_name === null) {
+            team2_name = resultsDropdown.value; // get selected val
+            console.log('Team 2:', team2_name);
         }
         
     })
@@ -76,25 +78,25 @@ function configureFuseJS() {
 fetchInitialData();
 
 document.getElementById('reset-btn').addEventListener('click', () => {
-    console.log('Before reset Team 1: %s',team1);
-    console.log('Before reset Team 2: %s',team2);
-    team1 = null;
-    team2 = null;
-    console.log('After reset Team 1: %s',team1);
-    console.log('After reset Team 2: %s',team2);
+    console.log('Before reset Team 1: %s',team1_name);
+    console.log('Before reset Team 2: %s',team2_name);
+    team1_name = null;
+    team2_name = null;
+    console.log('After reset Team 1: %s',team1_name);
+    console.log('After reset Team 2: %s',team2_name);
 });
 
 
 // Button Fetch Event for '/button_scrape' endpoint
 document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
-
-    let teams = [
-        { name: team1},
-        { name: team2}
-    ];
     
+    let teams = [
+        { name: team1_name},
+        { name: team2_name}
+    ];
+
     teams.forEach((item, index) => {
-        
+    
         console.log('team%s', index);
         // Get the value of the search box
         // const searchValue = document.getElementById('search-bar').value;
@@ -105,38 +107,19 @@ document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
         console.log(matchedItem)
         // If a match is found, send the 'url' to the backend
         if (matchedItem) {
-            const name = matchedItem.name;
-            const url = matchedItem.url;
-            console.log(name)
-            console.log(url)
-    
-            // Fetch the data from the '/button_scrape' endpoint
-            // Make the API call to the backend with the matched URL
-            fetch('/button_scrape', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                    name: name,
-                    url: url 
-                })  // Send the matched 'url'
-            })            
-                .then(response => response.json())
-                .then(data => {
-                    // Get the list element
-                    const listId = `team${index + 1}-list`;  // Create dynamic ID using the index
-                    const list = document.getElementById(listId);
-                    list.innerHTML = ''; // Clear old data
-                    
-                    data.forEach(player => {
-                        // Add each data element into this list
-                        const li = document.createElement('li');
-                        li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
-                        list.appendChild(li);
-                    });
-                })
-                .catch(error => console.error('Error fetching button scrape data:', error));
+            if (index === 0) {
+                team1_name = matchedItem.name;
+                team1_url = matchedItem.url;
             }
-    })
+            else if (index == 1) {
+                team2_name = matchedItem.name;
+                team2_url = matchedItem.url;
+            }
+            console.log(matchedItem.name)
+            console.log(matchedItem.url)
+        }
+    });
+    
+    // Navigate to the '/team_view' route with team1 and team2 as query parameters
+    window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}`;
 });

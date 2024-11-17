@@ -82,5 +82,23 @@ def button_scrape_endpoint():
     data = button_scrape(name,url)
     return jsonify(data)
 
+# @app.route('/team_view')
+# def team_view():
+#     # Pass query parameters to the template if needed
+#     team1 = request.args.get('team1')
+#     team2 = request.args.get('team2')
+#     return render_template('team_view.html', team1=team1, team2=team2)
+
+@app.route('/team_view')
+def team_view():
+    # Get 'team1' and 'team2' from the query parameters
+    team1_name = request.args.get('team1_name')
+    team2_name = request.args.get('team2_name')
+    team1_url = request.args.get('team1_url')
+    team2_url = request.args.get('team2_url')
+    print(team1_name, team1_url)
+    print(team2_name, team2_url)
+    return render_template('team_view.html', team1_name=team1_name, team2_name=team2_name, team1_url=team1_url, team2_url=team2_url)
+
 if __name__ == '__main__':
     app.run(debug=True)

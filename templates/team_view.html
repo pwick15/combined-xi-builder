@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Viewer</title>
+</head>
+<body>
+    <h1>Team Viewer</h1>
+    <p>Team 1: {{ team1 }}</p>
+    <p>Team 2: {{ team2 }}</p>
+    <ul id="team1-list"></ul>
+    <ul id="team2-list"></ul>
+    <script src="{{ url_for('static', filename='team_viewer.js') }}"></script>
+</body>
+
+</html>
