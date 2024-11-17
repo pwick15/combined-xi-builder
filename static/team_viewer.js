@@ -18,32 +18,124 @@ let teams = [
     { name: team2_name, url: team2_url }
 ];
 
-teams.forEach((item, index) => {
-    // Fetch the data from the '/button_scrape' endpoint
-    // Make the API call to the backend with the matched URL
-    fetch('/button_scrape', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            name: item.name,
-            url: item.url 
-        })  // Send the matched 'url'
-    })            
+// Fetch the data from the '/button_scrape' endpoint
+// Make the API call to the backend with the matched URL
+fetch('/button_scrape', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ 
+        team1_name: team1_name,
+        team1_url: team1_url,
+        team2_name: team2_name,
+        team2_url: team2_url
+    })  // Send the matched 'url'
+})            
+    .then(response => response.json())
+    .then(data => {
+        // // Get the list element
+        // const listId = `team${index + 1}-list`;  // Create dynamic ID using the index
+        // const list = document.getElementById(listId);
+        // list.innerHTML = ''; // Clear old data
+        
+        // data.forEach(player => {
+        //     // Add each data element into this list
+        //     const li = document.createElement('li');
+        //     li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
+        //     list.appendChild(li);
+        // });
+    })
+    .catch(error => console.error('Error fetching button scrape data:', error));
+
+document.getElementById('select-gk-btn').addEventListener('click', () => {
+    fetch('/select_gk')
         .then(response => response.json())
         .then(data => {
-            // Get the list element
-            const listId = `team${index + 1}-list`;  // Create dynamic ID using the index
-            const list = document.getElementById(listId);
-            list.innerHTML = ''; // Clear old data
-            
+            const list1 = document.getElementById('team1-list');
+            const list2 = document.getElementById('team2-list');
+            list1.innerHTML = '';
+            list2.innerHTML = '';
             data.forEach(player => {
-                // Add each data element into this list
                 const li = document.createElement('li');
-                li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
-                list.appendChild(li);
-            });
+                li.textContent = `${player.name}`;
+                if (player.team === team1_name) {
+                    list1.appendChild(li);
+                }
+                else if (player.team === team2_name) {
+                    list2.appendChild(li);
+                }
+            })
         })
-        .catch(error => console.error('Error fetching button scrape data:', error));
+});
+
+document.querySelectorAll('.select-def-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        fetch('/select_def')
+            .then(response => response.json())
+            .then(data => {
+                const list1 = document.getElementById('team1-list');
+                const list2 = document.getElementById('team2-list');
+                list1.innerHTML = '';
+                list2.innerHTML = '';
+                data.forEach(player => {
+                    const li = document.createElement('li');
+                    li.textContent = `${player.name}`;
+                    if (player.team === team1_name) {
+                        list1.appendChild(li);
+                    } else if (player.team === team2_name) {
+                        list2.appendChild(li);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
     });
+});
+
+
+document.querySelectorAll('.select-mid-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        fetch('/select_mid')
+            .then(response => response.json())
+            .then(data => {
+                const list1 = document.getElementById('team1-list');
+                const list2 = document.getElementById('team2-list');
+                list1.innerHTML = '';
+                list2.innerHTML = '';
+                data.forEach(player => {
+                    const li = document.createElement('li');
+                    li.textContent = `${player.name}`;
+                    if (player.team === team1_name) {
+                        list1.appendChild(li);
+                    } else if (player.team === team2_name) {
+                        list2.appendChild(li);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+});
+
+
+document.querySelectorAll('.select-for-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        fetch('/select_for')
+            .then(response => response.json())
+            .then(data => {
+                const list1 = document.getElementById('team1-list');
+                const list2 = document.getElementById('team2-list');
+                list1.innerHTML = '';
+                list2.innerHTML = '';
+                data.forEach(player => {
+                    const li = document.createElement('li');
+                    li.textContent = `${player.name}`;
+                    if (player.team === team1_name) {
+                        list1.appendChild(li);
+                    } else if (player.team === team2_name) {
+                        list2.appendChild(li);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+});

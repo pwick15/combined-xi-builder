@@ -7,9 +7,20 @@
 </head>
 <body>
     <h1>Team Viewer</h1>
-    <p>Team 1: {{ team1 }}</p>
-    <p>Team 2: {{ team2 }}</p>
+    <button id="select-gk-btn">Select GK</button>
+    <button class="select-def-btn">Select RB</button>
+    <button class="select-def-btn">Select CB</button>
+    <button class="select-def-btn">Select CB</button>
+    <button class="select-def-btn">Select LB</button>
+    <button class="select-mid-btn">Select CDM</button>
+    <button class="select-mid-btn">Select CM</button>
+    <button class="select-mid-btn">Select CAM</button>
+    <button class="select-for-btn">Select LW</button>
+    <button class="select-for-btn">Select RW</button>
+    <button class="select-for-btn">Select ST</button>
+    <p>Team 1: {{ team1_name }}</p>
     <ul id="team1-list"></ul>
+    <p>Team 2: {{ team2_name }}</p>
     <ul id="team2-list"></ul>
     <script src="{{ url_for('static', filename='team_viewer.js') }}"></script>
 </body>
