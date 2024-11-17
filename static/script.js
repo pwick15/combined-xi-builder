@@ -1,5 +1,7 @@
 // Define the 'items' array outside the fetch call to make it accessible globally
 let items = [];
+let team1 = null;
+let team2 = null;
 
 // Function to fetch initial scrape data and populate items (this will run once)
 function fetchInitialData() {
@@ -29,7 +31,7 @@ function configureFuseJS() {
 
     // HTML Elements for search
     const searchBar = document.getElementById('search-bar');
-    const resultsList = document.getElementById('results');
+    const resultsDropdown = document.getElementById('results');
 
     // Event Listener for Search Bar
     searchBar.addEventListener('input', () => {
@@ -37,68 +39,104 @@ function configureFuseJS() {
         const results = fuse.search(query); // Perform the fuzzy search
 
         // Clear previous results
-        resultsList.innerHTML = '';
+        resultsDropdown.innerHTML = '';
 
         // Display the results
         results.forEach(result => {
-            const li = document.createElement('li');
-            li.textContent = result.item.name;
-            resultsList.appendChild(li);
+            const option = document.createElement('option');
+            option.value = result.item.name;
+            option.textContent = result.item.name
+            resultsDropdown.appendChild(option);
         });
 
         // If no results, show a "No results" message
         if (results.length === 0) {
-            const li = document.createElement('li');
-            li.textContent = "No results found.";
-            resultsList.appendChild(li);
+            const option = document.createElement('option');
+            option.textContent = "No results found.";
+            option.disabled = true; // make it unselectable
+            resultsDropdown.appendChild(option);
         }
     });
+
+    // Event Listener for Dropdown Selection
+    resultsDropdown.addEventListener('change', () => {
+        if (team1 === null) {
+            team1 = resultsDropdown.value; // get selected val
+            console.log('Team 1:', team1);
+        }
+        else if (team2 === null) {
+            team2 = resultsDropdown.value; // get selected val
+            console.log('Team 2:', team2);
+        }
+        
+    })
 }
 
 // Call fetchInitialData on page load to fetch and populate items
 fetchInitialData();
 
+document.getElementById('reset-btn').addEventListener('click', () => {
+    console.log('Before reset Team 1: %s',team1);
+    console.log('Before reset Team 2: %s',team2);
+    team1 = null;
+    team2 = null;
+    console.log('After reset Team 1: %s',team1);
+    console.log('After reset Team 2: %s',team2);
+});
+
+
 // Button Fetch Event for '/button_scrape' endpoint
-document.getElementById('fetch-data').addEventListener('click', () => {
+document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
 
-    // Get the value of the search box
-    const searchValue = document.getElementById('search-bar').value;
-    console.log(searchValue)
-    // Find the item with the matching text
-    const matchedItem = items.find(item => item.name === searchValue);
-    console.log(matchedItem)
-    // If a match is found, send the 'url' to the backend
-    if (matchedItem) {
-        const name = matchedItem.name;
-        const url = matchedItem.url;
-        console.log(name)
-        console.log(url)
-
-        // Fetch the data from the '/button_scrape' endpoint
-        // Make the API call to the backend with the matched URL
-        fetch('/button_scrape', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                name: name,
-                url: url 
-            })  // Send the matched 'url'
-        })            
-            .then(response => response.json())
-            .then(data => {
-                // Get the list element
-                const list = document.getElementById('data-list');
-                list.innerHTML = ''; // Clear old data
-                
-                data.forEach(player => {
-                    // Add each data element into this list
-                    const li = document.createElement('li');
-                    li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
-                    list.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error fetching button scrape data:', error));
-        }
+    let teams = [
+        { name: team1},
+        { name: team2}
+    ];
+    
+    teams.forEach((item, index) => {
+        
+        console.log('team%s', index);
+        // Get the value of the search box
+        // const searchValue = document.getElementById('search-bar').value;
+        const searchValue = item.name;
+        console.log(searchValue)
+        // Find the item with the matching text
+        const matchedItem = items.find(item => item.name === searchValue);
+        console.log(matchedItem)
+        // If a match is found, send the 'url' to the backend
+        if (matchedItem) {
+            const name = matchedItem.name;
+            const url = matchedItem.url;
+            console.log(name)
+            console.log(url)
+    
+            // Fetch the data from the '/button_scrape' endpoint
+            // Make the API call to the backend with the matched URL
+            fetch('/button_scrape', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    name: name,
+                    url: url 
+                })  // Send the matched 'url'
+            })            
+                .then(response => response.json())
+                .then(data => {
+                    // Get the list element
+                    const listId = `team${index + 1}-list`;  // Create dynamic ID using the index
+                    const list = document.getElementById(listId);
+                    list.innerHTML = ''; // Clear old data
+                    
+                    data.forEach(player => {
+                        // Add each data element into this list
+                        const li = document.createElement('li');
+                        li.textContent = `${player.name} - ${player.position}`; // Combine name and position into a string
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching button scrape data:', error));
+            }
+    })
 });

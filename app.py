@@ -57,15 +57,15 @@ def button_scrape(name, url):
         name = text_data[i]
         position = text_data[i + 1] if i + 1 < len(text_data) else None
         print(name, position)
-        players.append({"name": name, "position": position})
         if position is not None:
             player = Player.create_player(name,position.split(","))
             # Player.print_player(player)
             if player is not None: 
                 print(player.name)
                 print(player.position)
+                players.append({"name": player.name, "position": player.position})
                 team.add_player_to_team(player)
-        print(len(team))
+    print(len(team))
     return players
 
 # Flask API endpoint for initial scrape
