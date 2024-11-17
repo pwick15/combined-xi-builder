@@ -1,6 +1,15 @@
 from flask import Flask, render_template, jsonify, request
 import requests
 from bs4 import BeautifulSoup
+from team import *
+from player import *
+
+''' 
+TODO change website for better scalability.
+Use: https://www.playmakerstats.com/competition/la-liga
+Limit the scope to the top 5 leagues.
+'''
+BASE_URL = "https://en.soccerwiki.org/"
 
 app = Flask(__name__)
 
@@ -32,19 +41,31 @@ def initial_scrape():
     return data
 
 # Function for button-triggered scrape
-def button_scrape(query):
-    url = query
+def button_scrape(name, url):
+    url = BASE_URL + url
+    print(f'url: {url}')
     if not url:
         print("error: No URL provided")
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     text_data = [item.text for item in soup.find_all("td", class_=["text-left"])]
     # Pair names and positions
+    team = Team(name)
     players = []
+    # print(text_data)
     for i in range(0, len(text_data), 2):  # Iterate two elements at a time
         name = text_data[i]
         position = text_data[i + 1] if i + 1 < len(text_data) else None
+        print(name, position)
         players.append({"name": name, "position": position})
+        if position is not None:
+            player = Player.create_player(name,position.split(","))
+            # Player.print_player(player)
+            if player is not None: 
+                print(player.name)
+                print(player.position)
+                team.add_player_to_team(player)
+        print(len(team))
     return players
 
 # Flask API endpoint for initial scrape
@@ -56,8 +77,9 @@ def initial_scrape_endpoint():
 # Function for button-triggered scrape
 @app.route('/button_scrape', methods=['POST'])
 def button_scrape_endpoint():
-    query = request.json.get('query')
-    data = button_scrape(query)
+    name = request.json.get('name')
+    url = request.json.get('url')
+    data = button_scrape(name,url)
     return jsonify(data)
 
 if __name__ == '__main__':

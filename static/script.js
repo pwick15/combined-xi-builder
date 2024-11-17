@@ -69,7 +69,9 @@ document.getElementById('fetch-data').addEventListener('click', () => {
     console.log(matchedItem)
     // If a match is found, send the 'url' to the backend
     if (matchedItem) {
+        const name = matchedItem.name;
         const url = matchedItem.url;
+        console.log(name)
         console.log(url)
 
         // Fetch the data from the '/button_scrape' endpoint
@@ -79,7 +81,10 @@ document.getElementById('fetch-data').addEventListener('click', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ url: url })  // Send the matched 'url'
+            body: JSON.stringify({ 
+                name: name,
+                url: url 
+            })  // Send the matched 'url'
         })            
             .then(response => response.json())
             .then(data => {
