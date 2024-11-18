@@ -6,13 +6,15 @@ from player import *
 import os
 import base64
 
-''' 
+''' TODO LIST
 TODO change website for better scalability.
 Use: https://www.playmakerstats.com/competition/la-liga
 Limit the scope to the top 5 leagues.
+TODO save the scraped data locally to improve efficiency (avoid repeatedly downloading images)
 '''
-BASE_URL = "https://en.soccerwiki.org/"
 
+
+BASE_URL = "https://en.soccerwiki.org/"
 team1 = None
 team2 = None
 app = Flask(__name__)
@@ -24,12 +26,39 @@ app.secret_key = os.urandom(24)
 def index():
     return render_template('index.html')
 
-def initial_scrape():
+# Given a team name and url, request relevant data and create a Team object 
+def create_team(team_name,url):
+    team = Team(team_name)
+    url = BASE_URL + url
+    if not url:
+        print("error: No URL provided for Team 1")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    text_data = [item.text for item in soup.find_all("td", class_=["text-left"])]
+    for i in range(0, len(text_data), 2):  # Iterate two elements at a time
+        player_name = text_data[i]
+        position = text_data[i + 1] if i + 1 < len(text_data) else None
+        if position is not None:
+            player = Player.create_player(player_name, team_name, position.split(","))
+            if player is not None: 
+                team.add_player_to_team(player)
+    team.view_team()
+    return team
+    
+# Persist data for global access 
+def persist_team_data(id, team):
+    session[f'team{id}'] = team.name
+    session[f'team{id}_players'] = [player.__dict__ for player in team.players]   
+
+# Flask API endpoint for initial scrape
+@app.route('/initial_scrape')
+def initial_scrape_endpoint():
     url = "https://en.soccerwiki.org/squad.php"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
     data = []
+    # TODO exclude loan players
     tbody = soup.find('tbody')  # Find the tbody tag
     if tbody:  # Check if tbody exists
         rows = tbody.find_all('tr')  # Find all tr tags within tbody
@@ -42,11 +71,11 @@ def initial_scrape():
                 link = cell.find('a')  # Find the a tag within the td
                 if link:
                     href = link['href']
-                    text = link.text.strip()
-                    row_data['text'] = text
+                    team_name = link.text.strip()
+                    row_data['team_name'] = team_name
                     row_data['url'] = href
 
-            # Image
+            # Image TODO uncomment to get images back
             img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
             if img_tag:
                 img_url = img_tag.get('data-src', img_tag.get('src'))  # Handle lozad
@@ -65,86 +94,18 @@ def initial_scrape():
             if row_data:
                 data.append(row_data)
 
-    return data
-
-
-# Function for button-triggered scrape
-def button_scrape(team1_name, team1_url, team2_name, team2_url):
-    global team
-    team1_url = BASE_URL + team1_url
-    team2_url = BASE_URL + team2_url
-    print(f'team1_url: {team1_url}')
-    print(f'team2_url: {team2_url}')
-    if not team1_url:
-        print("error: No URL provided for Team 1")
-    if not team2_url:
-        print("error: No URL provided for Team 2")
-    response1 = requests.get(team1_url)
-    response2 = requests.get(team2_url)
-    soup1 = BeautifulSoup(response1.text, 'html.parser')
-    text_data1 = [item.text for item in soup1.find_all("td", class_=["text-left"])]
-    soup2 = BeautifulSoup(response2.text, 'html.parser')
-    text_data2 = [item.text for item in soup2.find_all("td", class_=["text-left"])]
-    
-    # Pair names and positions
-    team1 = Team(team1_name)
-    team2 = Team(team2_name)
-    print(f'B len team1: {len(team1)}')
-    print(f'B len team2: {len(team2)}')
-    players = []
-    # print(text_data)
-    for i in range(0, len(text_data1), 2):  # Iterate two elements at a time
-        name = text_data1[i]
-        position = text_data1[i + 1] if i + 1 < len(text_data1) else None
-        print(name, position)
-        if position is not None:
-            player = Player.create_player(name, team1_name, position.split(","))
-            # Player.print_player(player)
-            if player is not None: 
-                # print(player.name)
-                # print(player.position)
-                players.append({"name": player.name, "position": player.position})
-                team1.add_player_to_team(player)
-
-    for i in range(0, len(text_data2), 2):  # Iterate two elements at a time
-        name = text_data2[i]
-        position = text_data2[i + 1] if i + 1 < len(text_data2) else None
-        print(name, position)
-        if position is not None:
-            player = Player.create_player(name, team2_name, position.split(","))
-            # Player.print_player(player)
-            if player is not None: 
-                # print(player.name)
-                # print(player.position)
-                players.append({"name": player.name, "position": player.position})
-                team2.add_player_to_team(player)
-    
-    print(f'A len team1: {len(team1)}')
-    print(f'A len team2: {len(team2)}')
-
-    session['team1'] = team1_name
-    session['team2'] = team2_name
-    session['team1_players'] = [player.__dict__ for player in team1.players]  # Serialize players
-    session['team2_players'] = [player.__dict__ for player in team2.players]
-
-    # print(len(team1))
-    return players
-
-# Flask API endpoint for initial scrape
-@app.route('/initial_scrape')
-def initial_scrape_endpoint():
-    data = initial_scrape()
     return jsonify(data)
 
 # Function for button-triggered scrape
 @app.route('/button_scrape', methods=['POST'])
 def button_scrape_endpoint():
-    team1_name = request.json.get('team1_name')
-    team1_url = request.json.get('team1_url')
-    team2_name = request.json.get('team2_name')
-    team2_url = request.json.get('team2_url')
-    data = button_scrape(team1_name, team1_url, team2_name, team2_url)
-    return jsonify(data)
+    team1_name, team1_url, team2_name, team2_url = (
+        request.json.get(key) for key in ['team1_name', 'team1_url', 'team2_name', 'team2_url'])
+    team1 = create_team(team1_name, team1_url)
+    persist_team_data("1", team1)
+    team2 = create_team(team2_name, team2_url)
+    persist_team_data("2", team2)
+    return jsonify({})
 
 @app.route('/select_gk')
 def select_gk():
