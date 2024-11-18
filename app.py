@@ -5,6 +5,8 @@ from team import *
 from player import *
 import os
 import base64
+import csv
+
 
 ''' TODO LIST
 TODO change website for better scalability.
@@ -13,13 +15,29 @@ Limit the scope to the top 5 leagues.
 TODO save the scraped data locally to improve efficiency (avoid repeatedly downloading images)
 '''
 
-
+CSV_FILE = 'data/team_data.csv'
 BASE_URL = "https://en.soccerwiki.org/"
 team1 = None
 team2 = None
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+
+def load_csv_data():
+    """Load existing team data from the CSV file."""
+    if not os.path.exists(CSV_FILE):
+        return {}
+    with open(CSV_FILE, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return {row['team_name']: row for row in reader}
+
+def save_csv_data(data):
+    """Save team data to the CSV file."""
+    with open(CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
+        fieldnames = ['team_name', 'url', 'img']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(data)
 
 # Serve the HTML frontend
 @app.route('/')
@@ -34,7 +52,7 @@ def create_team(team_name,url):
         print("error: No URL provided for Team 1")
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    text_data = [item.text for item in soup.find_all("td", class_=["text-left"])]
+    text_data = [item.text for item in soup.find(id="datatable").find_all("td", class_=["text-left"])]
     for i in range(0, len(text_data), 2):  # Iterate two elements at a time
         player_name = text_data[i]
         position = text_data[i + 1] if i + 1 < len(text_data) else None
@@ -57,44 +75,60 @@ def initial_scrape_endpoint():
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    data = []
-    # TODO exclude loan players
+    cached_data = load_csv_data()  # Load the cached CSV data
+    new_data = []
+
     tbody = soup.find('tbody')  # Find the tbody tag
-    if tbody:  # Check if tbody exists
+    if tbody:
         rows = tbody.find_all('tr')  # Find all tr tags within tbody
         for row in rows:
             row_data = {}
 
-            # Text and URL
-            cell = row.find('td', class_='text-left')  # Find td with class 'text-left'
+            # Scrape Team Name and URL
+            cell = row.find('td', class_='text-left')
             if cell:
-                link = cell.find('a')  # Find the a tag within the td
+                link = cell.find('a')
                 if link:
-                    href = link['href']
                     team_name = link.text.strip()
-                    row_data['team_name'] = team_name
-                    row_data['url'] = href
+                    href = link['href']
 
-            # Image TODO uncomment to get images back
-            img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
-            if img_tag:
-                img_url = img_tag.get('data-src', img_tag.get('src'))  # Handle lozad
-                if img_url:
-                    try:
-                        img_response = requests.get(img_url)
-                        img_response.raise_for_status()
-                        img_data = img_response.content
-                        # Encode image as Base64
-                        encoded_img = base64.b64encode(img_data).decode('utf-8')
-                        row_data['img'] = encoded_img
-                    except requests.RequestException as e:
-                        print(f"Failed to download image {img_url}: {e}")
-                        row_data['img'] = None
-            
+                    # Check if this team already exists in the cache
+                    if team_name in cached_data and cached_data[team_name]['url'] == href:
+                        row_data['team_name'] = team_name
+                        row_data['url'] = href
+                        row_data['img'] = cached_data[team_name]['img']  # Use cached image
+                    else:
+                        # Fetch the image if not already in the cache
+                        img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
+                        if img_tag:
+                            img_url = img_tag.get('data-src', img_tag.get('src'))
+                            if img_url:
+                                try:
+                                    img_response = requests.get(img_url)
+                                    img_response.raise_for_status()
+                                    img_data = img_response.content
+                                    # Encode image as Base64
+                                    encoded_img = base64.b64encode(img_data).decode('utf-8')
+                                    row_data['team_name'] = team_name
+                                    row_data['url'] = href
+                                    row_data['img'] = encoded_img
+
+                                    # Save new data to cache
+                                    cached_data[team_name] = {
+                                        'team_name': team_name,
+                                        'url': href,
+                                        'img': encoded_img
+                                    }
+                                except requests.RequestException as e:
+                                    print(f"Failed to download image {img_url}: {e}")
+                                    row_data['img'] = None
             if row_data:
-                data.append(row_data)
+                new_data.append(row_data)
 
-    return jsonify(data)
+    # Save updated cache to CSV
+    save_csv_data(cached_data.values())
+
+    return jsonify(new_data)
 
 # Function for button-triggered scrape
 @app.route('/button_scrape', methods=['POST'])
