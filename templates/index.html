@@ -7,12 +7,35 @@
 </head>
 <body>
     <h1>COMBINED XI BUILDER</h1>
-    <button id="fetch-lineups-btn">Generate</button>
-    <button id="reset-btn">Reset</button>
-    <input type="text" id="search-bar" placeholder="Type to search..." />
-    <select id="results" size="5" style="width: 300px"></select>
-    <ul id="team1-list"></ul>
-    <ul id="team2-list"></ul>
+    <div class="content-container">
+        <h2>Search for teams</h2>
+        <input type="text" id="search-bar" placeholder="Type to search..." />
+        <select id="results" size="5" style="width: 300px"></select>
+        <div class="team-container">
+            <h3>Team 1</h3>
+            <img
+            id="team1-img"
+            src="/static/assets/soccer-ball.png"
+            alt="Team 1 Image"
+            class="icon team-image"
+            />
+            <p id="team1-name">Team 1 Name Placeholder</p>
+        </div>
+        <div class="team-container">
+            <h3>Team 2</h3>
+            <img
+            id="team2-img"
+            src="/static/assets/soccer-ball.png"
+            alt="Team 2 Image"
+            class="icon team-image"
+            />
+            <p id="team2-name">Team 2 Name Placeholder</p>
+        </div>
+
+        <button id="fetch-lineups-btn">Generate</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+    
     
     <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
     <script src="/static/script.js"></script>

@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from team import *
 from player import *
 import os
+import base64
 
 ''' 
 TODO change website for better scalability.
@@ -23,27 +24,49 @@ app.secret_key = os.urandom(24)
 def index():
     return render_template('index.html')
 
-
-# Function for initial scrape
 def initial_scrape():
     url = "https://en.soccerwiki.org/squad.php"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Access elements within tbody -> tr -> td -> a
     data = []
     tbody = soup.find('tbody')  # Find the tbody tag
     if tbody:  # Check if tbody exists
         rows = tbody.find_all('tr')  # Find all tr tags within tbody
         for row in rows:
+            row_data = {}
+
+            # Text and URL
             cell = row.find('td', class_='text-left')  # Find td with class 'text-left'
             if cell:
                 link = cell.find('a')  # Find the a tag within the td
                 if link:
-                    href = link['href']  # Get the href attribute
-                    text = link.text.strip()  # Get the text inside the a tag
-                    data.append({'text': text, 'url': href})  # Save both text and URL
+                    href = link['href']
+                    text = link.text.strip()
+                    row_data['text'] = text
+                    row_data['url'] = href
+
+            # Image
+            img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
+            if img_tag:
+                img_url = img_tag.get('data-src', img_tag.get('src'))  # Handle lozad
+                if img_url:
+                    try:
+                        img_response = requests.get(img_url)
+                        img_response.raise_for_status()
+                        img_data = img_response.content
+                        # Encode image as Base64
+                        encoded_img = base64.b64encode(img_data).decode('utf-8')
+                        row_data['img'] = encoded_img
+                    except requests.RequestException as e:
+                        print(f"Failed to download image {img_url}: {e}")
+                        row_data['img'] = None
+            
+            if row_data:
+                data.append(row_data)
+
     return data
+
 
 # Function for button-triggered scrape
 def button_scrape(team1_name, team1_url, team2_name, team2_url):

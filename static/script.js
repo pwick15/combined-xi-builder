@@ -13,7 +13,9 @@ function fetchInitialData() {
             // Map the fetched data to the 'items' array
             items = data.map(item => ({
                 name: item.text,  // Assuming each item has a 'text' field
-                url: item.url
+                url: item.url,
+                img: item.img  // Include the Base64 image string
+
             }));
             
             // Now that 'items' is populated, configure Fuse.js (this part only runs once)
@@ -64,13 +66,73 @@ function configureFuseJS() {
     resultsDropdown.addEventListener('change', () => {
         if (team1_name === null) {
             team1_name = resultsDropdown.value; // get selected val
-            console.log('Team 1:', team1_name);
+            const matchedItem = items.find(item => item.name === resultsDropdown.value);
+            console.log(matchedItem)
+            // If a match is found, send the 'url' to the backend
+            if (matchedItem) {
+                const team1Name = document.getElementById('team1-name');
+                console.log('Team 1:', team1Name.value);
+                team1Name.value = resultsDropdown.value;
+                team1Name.textContent = resultsDropdown.value;
+                console.log('Team 1:', team1Name.value);
+                team1_name = matchedItem.name;
+                team1_url = matchedItem.url;
+                console.log(matchedItem.name)
+                console.log(matchedItem.url)
+
+                // Update the image with the matched item's image URL
+                const team1Img = document.getElementById('team1-img');
+                if (team1Img && matchedItem.img) {
+                    console.log('Matched Item Image URL:', matchedItem.img);
+                
+                    // Check if the image is Base64
+                    if (matchedItem.img.startsWith('data:image/')) {
+                        // It's already a valid data URI
+                        team1Img.src = matchedItem.img;
+                    } else {
+                        // It's raw Base64, prepend the data URI scheme
+                        team1Img.src = `data:image/png;base64,${matchedItem.img}`;
+                    }
+                
+                    console.log('Updated Image Src:', team1Img.src);
+                }
+                
+            }
+
         }
         else if (team2_name === null) {
             team2_name = resultsDropdown.value; // get selected val
-            console.log('Team 2:', team2_name);
+            const matchedItem = items.find(item => item.name === resultsDropdown.value);
+            console.log(matchedItem)
+            // If a match is found, send the 'url' to the backend
+            if (matchedItem) {
+                const team2Name = document.getElementById('team2-name');
+                console.log('Team 2:', team2Name.value);
+                team2Name.value = resultsDropdown.value;
+                team2Name.textContent = resultsDropdown.value;
+                console.log('Team 2:', team2Name.value);
+                team2_name = matchedItem.name;
+                team2_url = matchedItem.url;
+                console.log(matchedItem.name)
+                console.log(matchedItem.url)
+                // update image
+                const team2Img = document.getElementById('team2-img');
+                if (team2Img && matchedItem.img) {
+                    console.log('Matched Item Image URL:', matchedItem.img);
+                
+                    // Check if the image is Base64
+                    if (matchedItem.img.startsWith('data:image/')) {
+                        // It's already a valid data URI
+                        team2Img.src = matchedItem.img;
+                    } else {
+                        // It's raw Base64, prepend the data URI scheme
+                        team2Img.src = `data:image/png;base64,${matchedItem.img}`;
+                    }
+                
+                    console.log('Updated Image Src:', team2Img.src);
+                }
+            }
         }
-        
     })
 }
 
@@ -89,37 +151,6 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 
 // Button Fetch Event for '/button_scrape' endpoint
 document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
-    
-    let teams = [
-        { name: team1_name},
-        { name: team2_name}
-    ];
-
-    teams.forEach((item, index) => {
-    
-        console.log('team%s', index);
-        // Get the value of the search box
-        // const searchValue = document.getElementById('search-bar').value;
-        const searchValue = item.name;
-        console.log(searchValue)
-        // Find the item with the matching text
-        const matchedItem = items.find(item => item.name === searchValue);
-        console.log(matchedItem)
-        // If a match is found, send the 'url' to the backend
-        if (matchedItem) {
-            if (index === 0) {
-                team1_name = matchedItem.name;
-                team1_url = matchedItem.url;
-            }
-            else if (index == 1) {
-                team2_name = matchedItem.name;
-                team2_url = matchedItem.url;
-            }
-            console.log(matchedItem.name)
-            console.log(matchedItem.url)
-        }
-    });
-    
     // Navigate to the '/team_view' route with team1 and team2 as query parameters
     window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}`;
 });
