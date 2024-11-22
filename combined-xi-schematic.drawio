@@ -1,0 +1,233 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.6">
+  <diagram name="Page-1" id="xJxQ0eqfxbTClQe1PdwB">
+    <mxGraphModel dx="2199" dy="632" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gxkWHUreXXAfUlcbenF4-4" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="144" y="110" width="540" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-5" value="Flask API Backend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="354" y="70" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-6" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="944" y="110" width="566" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-7" value="&lt;b&gt;app.py&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="384" y="40" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-8" value="HTML frontend" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1191" y="70" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-9" value="&lt;b&gt;script.js&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="1206" y="40" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="gxkWHUreXXAfUlcbenF4-10" target="gxkWHUreXXAfUlcbenF4-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-13" value="API call" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="gxkWHUreXXAfUlcbenF4-12" vertex="1" connectable="0">
+          <mxGeometry x="0.0202" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-10" value="&lt;b&gt;fetchInitialData()&lt;/b&gt;&lt;div&gt;&lt;i&gt;Scrape for the list of possible teams for selection&lt;/i&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="160" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="gxkWHUreXXAfUlcbenF4-11" target="gxkWHUreXXAfUlcbenF4-14" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-11" value="&lt;b&gt;initial_scrape()&lt;/b&gt;&lt;div&gt;&lt;i&gt;Execution of initial scrape&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;i&gt;(Gathers team names + url)&lt;/i&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="165" width="150" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-14" value="&lt;b&gt;configureFuseJS()&lt;/b&gt;&lt;div&gt;&lt;i&gt;Repeatedly parse the value in search bar and output the list of viable options based on fuzzy search&lt;/i&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="290" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.46;entryY=1.032;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="gxkWHUreXXAfUlcbenF4-14" target="gxkWHUreXXAfUlcbenF4-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="340" />
+              <mxPoint x="1250" y="410" />
+              <mxPoint x="1092" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-17" value="Loop indefinitely" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="gxkWHUreXXAfUlcbenF4-16" vertex="1" connectable="0">
+          <mxGeometry x="-0.276" y="2" relative="1" as="geometry">
+            <mxPoint y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-18" value="Click &quot;Generate:" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1349" y="440" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gxkWHUreXXAfUlcbenF4-19" target="gxkWHUreXXAfUlcbenF4-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="490" />
+              <mxPoint x="830" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-19" value="&lt;b&gt;fetch(&#39;button_scrape&#39;)&lt;/b&gt;&lt;div&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;get value in search bar&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Only run if valid entry found&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Send corresponding url to backend for scraping&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1000" y="440" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="gxkWHUreXXAfUlcbenF4-20" target="gxkWHUreXXAfUlcbenF4-22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-20" value="&lt;b&gt;button_scrape()&lt;/b&gt;&lt;div&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;i&gt;Get player names and positions&lt;/i&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="450" y="380" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="gxkWHUreXXAfUlcbenF4-22" value="&lt;div style=&quot;&quot;&gt;&lt;i&gt;&lt;b&gt;Create Team&lt;/b&gt;&lt;/i&gt;&lt;/div&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;i&gt;Create a &#39;team&#39; object, that consists of players&lt;/i&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;i&gt;Each Player should be assigned a specific subclass depending on position&lt;/i&gt;&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="220" y="370" width="160" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-1" target="o3PGzRDe0Ay66HI1WSTU-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-11" value="&lt;span style=&quot;font-size: 12px; text-wrap-mode: wrap; background-color: rgb(251, 251, 251);&quot;&gt;Request team information&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="o3PGzRDe0Ay66HI1WSTU-10">
+          <mxGeometry x="-0.3096" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-1" value="&lt;b&gt;fetchInitialData()&lt;/b&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;fetch&lt;b&gt;&amp;nbsp;/&lt;/b&gt;initial_scrape&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="630" y="830" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-2" target="o3PGzRDe0Ay66HI1WSTU-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-2" value="python app.py" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="190" y="830" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-5" target="o3PGzRDe0Ay66HI1WSTU-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-7" value="Load script.js" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="o3PGzRDe0Ay66HI1WSTU-6">
+          <mxGeometry x="0.0138" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-5" value="render index.html" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="830" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-9" target="o3PGzRDe0Ay66HI1WSTU-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-9" value="&lt;b&gt;initial_scrape_endpoint()&lt;/b&gt;&lt;div&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Scrape all team data from single page&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;If team exists in cache, retrieve from here&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Update the cache if needed and return the list as json:&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;[ team1, url1, img1]&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;[ team2, url2, img2]&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;etc&lt;/li&gt;&lt;/ul&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="592.5" y="970" width="227.5" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-14" target="o3PGzRDe0Ay66HI1WSTU-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-14" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Save incoming data into &#39;&lt;/span&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;all_teams&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&#39; variable&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;Name&lt;/li&gt;&lt;li&gt;Url&lt;/li&gt;&lt;li&gt;Logo Image&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="395" y="965" width="130" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-16" target="o3PGzRDe0Ay66HI1WSTU-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="1100" />
+              <mxPoint x="255" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-16" value="&lt;div&gt;&lt;span style=&quot;text-align: left; background-color: initial;&quot;&gt;Display values from &#39;all_teams&#39; that match the fuzzy search&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="990" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-20" target="o3PGzRDe0Ay66HI1WSTU-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-20" value="Input to text box" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="980" width="110" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-21" target="o3PGzRDe0Ay66HI1WSTU-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-21" value="Selection from dropdown list" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1120" width="110" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-26" target="o3PGzRDe0Ay66HI1WSTU-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-26" value="&lt;div style=&quot;&quot;&gt;Populate global variables with team data and update images visual display&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-80" y="1130" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-33" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-30" target="o3PGzRDe0Ay66HI1WSTU-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-30" value="&lt;b&gt;Button&lt;/b&gt;: Fetch teams&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="-47.5" y="1260" width="135" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-32" target="o3PGzRDe0Ay66HI1WSTU-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-32" value="&lt;b&gt;Send team info to next html page&lt;/b&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;Send Team 1 [name, url]&lt;/li&gt;&lt;li&gt;Send Team 2 [name, url&lt;b&gt;]&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="175" y="1272.5" width="225" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-34" target="o3PGzRDe0Ay66HI1WSTU-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-34" value="&lt;b&gt;Save received info&lt;/b&gt;&lt;div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;Receive and send Team 1 [name, url]&lt;/li&gt;&lt;li&gt;Receive and send Team 2 [name, url&lt;b&gt;]&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="484" y="1240" width="246" height="72.5" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-45" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="o3PGzRDe0Ay66HI1WSTU-44">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930.0000000000005" y="1640" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-36" value="&lt;div&gt;&lt;b&gt;save_teams_endpoint()&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Scrape both team data&amp;nbsp;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Create Team objects&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#ff6666&quot;&gt;Persist data to &lt;b&gt;&lt;i&gt;session&lt;/i&gt;&lt;/b&gt;&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Return data as json:&lt;/font&gt;&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;team1:&lt;/font&gt;&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;name&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;pos&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;img&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;team2:&lt;/font&gt;&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;name&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;pos&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;img&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/ul&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1240" width="220" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-39" target="o3PGzRDe0Ay66HI1WSTU-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-39" value="&lt;b&gt;fetch /save_teams&lt;/b&gt;&lt;br&gt;&lt;div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;ul&gt;&lt;li&gt;Send Team 1 [name, url]&lt;/li&gt;&lt;li&gt;Send Team 2 [name, url&lt;b&gt;]&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="484" y="1360" width="246" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-47" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-44" target="o3PGzRDe0Ay66HI1WSTU-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-44" value="&lt;b&gt;Button&lt;/b&gt;: Select Position&lt;div&gt;(e.g. goalkeeper)&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="840" y="1680" width="180" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-46" target="o3PGzRDe0Ay66HI1WSTU-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-46" value="&lt;b&gt;fetch /select_gk&lt;/b&gt;" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="670" y="1712.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-48" target="o3PGzRDe0Ay66HI1WSTU-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-48" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;b&gt;select_gk&lt;/b&gt;&lt;/span&gt;&lt;b&gt;()&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Filter out only goalkeeper players from both Team objects&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Return all goalkeeprs as JSON&lt;/li&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#FF9999;" vertex="1" parent="1">
+          <mxGeometry x="224" y="1696.25" width="220" height="92.5" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-53" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-50" target="o3PGzRDe0Ay66HI1WSTU-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-50" value="&lt;b&gt;Display goalkeepers in drop down&lt;/b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-100" y="1724.38" width="210" height="36.25" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-55" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-52" target="o3PGzRDe0Ay66HI1WSTU-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-52" value="Selection from goalkeeper list" style="rhombus;whiteSpace=wrap;html=1;verticalAlign=middle;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-52.5" y="1840.01" width="115" height="109.99" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-54" target="o3PGzRDe0Ay66HI1WSTU-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-54" value="&lt;div&gt;&lt;b&gt;Display chosen goalkeeper&lt;/b&gt;&lt;/div&gt;Update HTML element to show selected name on screen" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="130" y="1852.5" width="190" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-58" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="o3PGzRDe0Ay66HI1WSTU-36" target="o3PGzRDe0Ay66HI1WSTU-57">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="1310" as="sourcePoint" />
+            <mxPoint x="930" y="1590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3PGzRDe0Ay66HI1WSTU-57" value="&lt;b&gt;&lt;font color=&quot;#00cc00&quot;&gt;Save incoming data into &#39;team1&#39; and &#39;team2&#39;&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;b&gt;&lt;font color=&quot;#00cc00&quot;&gt;Team 1&lt;/font&gt;&lt;/b&gt;&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Yamal, RW, Img&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Martinez, CB, Img&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Lewa, ST, Img&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Team 2:&lt;/font&gt;&lt;/li&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Martinelli, LW, Img&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Saka, RW, Img&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;font color=&quot;#00cc00&quot;&gt;Havertz, ST, Img&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/ul&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1500" width="260" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,3 +1,8 @@
+let both_teams = [];
+let GKS = [];
+let DEFS = [];
+let FORS = [];
+
 // Function to get a query parameter by name
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -31,36 +36,86 @@ fetch('/button_scrape', {
         team2_name: team2_name,
         team2_url: team2_url
     })  // Send the matched 'url'
-})            
+})   
+    .then(response => response.json())
+    .then(data => {
+        both_teams = data.both_teams;
+        console.log(both_teams)
+    })
+    .catch(error => console.error('Error fetching initial scrape data:', error));         
     
+
 document.getElementById('select-gk-btn').addEventListener('click', () => {
-    fetch('/select_gk')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for GK selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+    
+        // Dynamically create a new select element for GK selection
+        const select = document.createElement('select');
+        select.innerHTML = '<option value="" disabled selected>Select a player</option>';
 
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selectedGK = document.getElementById('selected-gk');
-                selectedGK.textContent = select.value;
-            });
+        console.log(GKS);
+        both_teams.forEach(player => {
+            if (player.position === "Gk") {
+                GKS.push(player);
+            }
         })
-        .catch(error => console.error('Error fetching data:', error));
+        console.log(GKS);
+
+        GKS.forEach(player => {
+            const option = document.createElement('option');
+            option.value = player.player_name;
+            option.textContent = `${player.player_name}, ${player.team_name}`;
+            select.appendChild(option);
+        });
+
+        // Append to the body or a container
+        const container = document.getElementById('select-container');
+        container.innerHTML = ''; // Clear previous selections
+        container.appendChild(select);
+
+        // Add event listener for selection change
+        select.addEventListener('change', () => {
+            const selectedGK = document.getElementById('selected-gk');
+            selectedGK.textContent = select.value;
+            const matchedItem = GKS.find(item => item.player_name === select.value);
+            console.log(matchedItem);
+
+
+            const selectedGKImg = document.getElementById('selected-gk-img');
+            if (selectedGKImg && matchedItem.img) {
+                selectedGKImg.src = matchedItem.img.startsWith('data:image/') 
+                ? matchedItem.img 
+                : `data:image/png;base64,${matchedItem.img}`;
+            }
+        });
 });
+
+// document.getElementById('select-gk-btn').addEventListener('click', () => {
+//     fetch('/select_gk')
+//         .then(response => response.json())
+//         .then(data => {
+//             // Dynamically create a new select element for GK selection
+//             const select = document.createElement('select');
+//             select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+//             data.forEach(player => {
+//                 const option = document.createElement('option');
+//                 option.value = player.name;
+//                 option.textContent = `${player.name}, ${player.team}`;
+//                 select.appendChild(option);
+//             });
+
+//             // Append to the body or a container
+//             const container = document.getElementById('select-container');
+//             container.innerHTML = ''; // Clear previous selections
+//             container.appendChild(select);
+
+//             // Add event listener for selection change
+//             select.addEventListener('change', () => {
+//                 const selectedGK = document.getElementById('selected-gk');
+//                 selectedGK.textContent = select.value;
+//             });
+//         })
+//         .catch(error => console.error('Error fetching data:', error));
+// });
 
 document.getElementById('select-rb-btn').addEventListener('click', () => {
     fetch('/select_def')

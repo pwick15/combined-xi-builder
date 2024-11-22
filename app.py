@@ -44,24 +44,57 @@ def save_csv_data(data):
 def index():
     return render_template('index.html')
 
+
 # Given a team name and url, request relevant data and create a Team object 
 def create_team(team_name,url):
-    team = Team(team_name)
     url = BASE_URL + url
     if not url:
         print("error: No URL provided for Team 1")
+    
+    team_json = []
+    team = Team(team_name)
+
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    text_data = [item.text for item in soup.find(id="datatable").find_all("td", class_=["text-left"])]
-    for i in range(0, len(text_data), 2):  # Iterate two elements at a time
-        player_name = text_data[i]
-        position = text_data[i + 1] if i + 1 < len(text_data) else None
-        if position is not None:
-            player = Player.create_player(player_name, team_name, position.split(","))
-            if player is not None: 
-                team.add_player_to_team(player)
+
+    table = soup.find('table', id='datatable')
+    if table:
+        tbody = table.find('tbody')
+        if tbody:
+            rows = tbody.find_all('tr')
+            for row in rows:
+                row_data = {}
+
+                # scrape key data
+                cols = row.find_all('td')
+                shirt_num = cols[0].text.strip()
+                player_name = cols[3].text.strip()
+                position = cols[4].text.strip()
+
+                # Fetch the image if not already in the cache
+
+                # UNCOMMENT BELOW TO STORE IMAGES
+                img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
+                if img_tag:
+                    img_url = img_tag.get('data-src', img_tag.get('src'))
+                    if img_url:
+                        img_response = requests.get(img_url)
+                        img_response.raise_for_status()
+                        img_data = img_response.content
+                        # Encode image as Base64
+                        encoded_img = base64.b64encode(img_data).decode('utf-8')
+                player = Player.create_player(player_name, team_name, position.split(","))
+                row_data['team_name'] = team_name
+                row_data['player_name'] = player_name
+                row_data['position'] = position
+                row_data['img'] = encoded_img #UNCOMMENT
+                if row_data:
+                    team_json.append(row_data)     
+                if player is not None: 
+                    team.add_player_to_team(player)
     team.view_team()
-    return team
+    return team, team_json
+
     
 # Persist data for global access 
 def persist_team_data(id, team):
@@ -127,7 +160,6 @@ def initial_scrape_endpoint():
 
     # Save updated cache to CSV
     save_csv_data(cached_data.values())
-
     return jsonify(new_data)
 
 # Function for button-triggered scrape
@@ -135,11 +167,13 @@ def initial_scrape_endpoint():
 def button_scrape_endpoint():
     team1_name, team1_url, team2_name, team2_url = (
         request.json.get(key) for key in ['team1_name', 'team1_url', 'team2_name', 'team2_url'])
-    team1 = create_team(team1_name, team1_url)
+    team1, team1_json = create_team(team1_name, team1_url)
     persist_team_data("1", team1)
-    team2 = create_team(team2_name, team2_url)
+    team2, team2_json = create_team(team2_name, team2_url)
     persist_team_data("2", team2)
-    return jsonify({})
+    both_teams_json = team1_json + team2_json
+    print(len(team1_json), len(team2_json))
+    return jsonify({"both_teams": both_teams_json})
 
 @app.route('/select_gk')
 def select_gk():
