@@ -84,9 +84,9 @@ def create_team(team_name,url):
                         # Encode image as Base64
                         encoded_img = base64.b64encode(img_data).decode('utf-8')
                 player = Player.create_player(player_name, team_name, position.split(","))
-                row_data['team_name'] = team_name
-                row_data['player_name'] = player_name
-                row_data['position'] = position
+                row_data['team_name'] = player.team
+                row_data['player_name'] = player.name
+                row_data['position'] = player.position
                 row_data['img'] = encoded_img #UNCOMMENT
                 if row_data:
                     team_json.append(row_data)     

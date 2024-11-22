@@ -1,6 +1,7 @@
 let both_teams = [];
 let GKS = [];
 let DEFS = [];
+let MIDS = [];
 let FORS = [];
 
 // Function to get a query parameter by name
@@ -46,364 +47,91 @@ fetch('/button_scrape', {
     
 
 document.getElementById('select-gk-btn').addEventListener('click', () => {
-    
-        // Dynamically create a new select element for GK selection
-        const select = document.createElement('select');
-        select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-        console.log(GKS);
-        both_teams.forEach(player => {
-            if (player.position === "Gk") {
-                GKS.push(player);
-            }
-        })
-        console.log(GKS);
-
-        GKS.forEach(player => {
-            const option = document.createElement('option');
-            option.value = player.player_name;
-            option.textContent = `${player.player_name}, ${player.team_name}`;
-            select.appendChild(option);
-        });
-
-        // Append to the body or a container
-        const container = document.getElementById('select-container');
-        container.innerHTML = ''; // Clear previous selections
-        container.appendChild(select);
-
-        // Add event listener for selection change
-        select.addEventListener('change', () => {
-            const selectedGK = document.getElementById('selected-gk');
-            selectedGK.textContent = select.value;
-            const matchedItem = GKS.find(item => item.player_name === select.value);
-            console.log(matchedItem);
-
-
-            const selectedGKImg = document.getElementById('selected-gk-img');
-            if (selectedGKImg && matchedItem.img) {
-                selectedGKImg.src = matchedItem.img.startsWith('data:image/') 
-                ? matchedItem.img 
-                : `data:image/png;base64,${matchedItem.img}`;
-            }
-        });
+    select_player(GKS, "GK", 'selected-gk', 'selected-gk-img')
 });
 
-// document.getElementById('select-gk-btn').addEventListener('click', () => {
-//     fetch('/select_gk')
-//         .then(response => response.json())
-//         .then(data => {
-//             // Dynamically create a new select element for GK selection
-//             const select = document.createElement('select');
-//             select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-//             data.forEach(player => {
-//                 const option = document.createElement('option');
-//                 option.value = player.name;
-//                 option.textContent = `${player.name}, ${player.team}`;
-//                 select.appendChild(option);
-//             });
-
-//             // Append to the body or a container
-//             const container = document.getElementById('select-container');
-//             container.innerHTML = ''; // Clear previous selections
-//             container.appendChild(select);
-
-//             // Add event listener for selection change
-//             select.addEventListener('change', () => {
-//                 const selectedGK = document.getElementById('selected-gk');
-//                 selectedGK.textContent = select.value;
-//             });
-//         })
-//         .catch(error => console.error('Error fetching data:', error));
-// });
-
 document.getElementById('select-rb-btn').addEventListener('click', () => {
-    fetch('/select_def')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selectedDEF = document.getElementById('selected-rb');
-                selectedDEF.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(DEFS, "DEF", 'selected-rb', 'selected-rb-img')   
 });
 
 document.getElementById('select-cb1-btn').addEventListener('click', () => {
-    fetch('/select_def')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selectedDEF = document.getElementById('selected-cb1');
-                selectedDEF.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(DEFS, "DEF", 'selected-cb1', 'selected-cb1-img')   
 });
 
 document.getElementById('select-cb2-btn').addEventListener('click', () => {
-    fetch('/select_def')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selectedDEF = document.getElementById('selected-cb2');
-                selectedDEF.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(DEFS, "DEF", 'selected-cb2', 'selected-cb2-img')   
 });
 
 document.getElementById('select-lb-btn').addEventListener('click', () => {
-    fetch('/select_def')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selectedDEF = document.getElementById('selected-lb');
-                selectedDEF.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(DEFS, "DEF", 'selected-lb', 'selected-lb-img')   
 });
 
 document.getElementById('select-cdm-btn').addEventListener('click', () => {
-    fetch('/select_mid')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-cdm');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(MIDS, "MID", 'selected-cdm', 'selected-cdm-img')   
 });
 
 document.getElementById('select-cm-btn').addEventListener('click', () => {
-    fetch('/select_mid')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-cm');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(MIDS, "MID", 'selected-cm', 'selected-cm-img')   
 });
 
 document.getElementById('select-cam-btn').addEventListener('click', () => {
-    fetch('/select_mid')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-cam');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(MIDS, "MID", 'selected-cam', 'selected-cam-img')   
 });
 
 document.getElementById('select-lw-btn').addEventListener('click', () => {
-    fetch('/select_for')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-lw');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(FORS, "FOR", 'selected-lw', 'selected-lw-img')   
 });
 
 document.getElementById('select-rw-btn').addEventListener('click', () => {
-    fetch('/select_for')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-rw');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(FORS, "FOR", 'selected-rw', 'selected-rw-img')   
 });
 
 document.getElementById('select-st-btn').addEventListener('click', () => {
-    fetch('/select_for')
-        .then(response => response.json())
-        .then(data => {
-            // Dynamically create a new select element for RB selection
-            const select = document.createElement('select');
-            select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
-            data.forEach(player => {
-                const option = document.createElement('option');
-                option.value = player.name;
-                option.textContent = `${player.name}, ${player.team}`;
-                select.appendChild(option);
-            });
-
-            // Append to the body or a container
-            const container = document.getElementById('select-container');
-            container.innerHTML = ''; // Clear previous selections
-            container.appendChild(select);
-
-            // Add event listener for selection change
-            select.addEventListener('change', () => {
-                const selected = document.getElementById('selected-st');
-                selected.textContent = select.value;
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    select_player(FORS, "FOR", 'selected-st', 'selected-st-img')   
 });
 
+
+function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
+    
+    // Dynamically create a new select element for GK selection
+    const select = document.createElement('select');
+    select.innerHTML = '<option value="" disabled selected>Select a player</option>';
+
+    if (pos_list.length === 0) {
+        console.log(pos_list);
+        both_teams.forEach(player => {
+            if (player.position === target_pos_str) {
+                pos_list.push(player);
+            }
+        })
+    }
+    console.log(pos_list);
+
+    pos_list.forEach(player => {
+        const option = document.createElement('option');
+        option.value = player.player_name;
+        option.textContent = `${player.player_name}, ${player.team_name}`;
+        select.appendChild(option);
+    });
+
+    // Append to the body or a container
+    const container = document.getElementById('select-container');
+    container.innerHTML = ''; // Clear previous selections
+    container.appendChild(select);
+
+    // Add event listener for selection change
+    select.addEventListener('change', () => {
+        const selectedPlayer = document.getElementById(pos_html_id);
+        selectedPlayer.textContent = select.value;
+        const matchedItem = pos_list.find(item => item.player_name === select.value);
+        console.log(matchedItem);
+
+
+        const selectedPlayerImg = document.getElementById(pos_img_html_id);
+        if (selectedPlayerImg && matchedItem.img) {
+            selectedPlayerImg.src = matchedItem.img.startsWith('data:image/') 
+            ? matchedItem.img 
+            : `data:image/png;base64,${matchedItem.img}`;
+        }
+    });
+}
