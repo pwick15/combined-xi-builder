@@ -11,28 +11,31 @@
         <h2>Search for teams</h2>
         <input type="text" id="search-bar" placeholder="Type to search..." />
         <select id="results" size="5" style="width: 300px"></select>
-        <div class="team-container">
-            <h3>Team 1</h3>
-            <img
-            id="team1-img"
-            src="/static/assets/soccer-ball.png"
-            alt="Team 1 Image"
-            class="icon team-image"
-            width="50px"
-            />
-            <p id="team1-name"></p>
+        <div class="teams-continer">
+            <div class="team-container">
+                <h3>Team 1</h3>
+                <img
+                id="team1-img"
+                src="/static/assets/soccer-ball.png"
+                alt="Team 1 Image"
+                class="icon team-image"
+                width="50px"
+                />
+                <p id="team1-name"></p>
+            </div>
+            <div class="team-container">
+                <h3>Team 2</h3>
+                <img
+                id="team2-img"
+                src="/static/assets/soccer-ball.png"
+                alt="Team 2 Image"
+                class="icon team-image"
+                width="50px"
+                />
+                <p id="team2-name"></p>
+            </div>
         </div>
-        <div class="team-container">
-            <h3>Team 2</h3>
-            <img
-            id="team2-img"
-            src="/static/assets/soccer-ball.png"
-            alt="Team 2 Image"
-            class="icon team-image"
-            width="50px"
-            />
-            <p id="team2-name"></p>
-        </div>
+        
 
         <button id="fetch-lineups-btn">Generate</button>
         <button id="reset-btn">Reset</button>

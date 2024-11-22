@@ -2,6 +2,9 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 20px;
+    background-color: rgb(148, 192, 230);
+    align-items: center;
+    text-align: center;
 }
 
 button {
@@ -17,4 +20,26 @@ ul {
 
 li {
     margin: 5px 0;
+}
+
+h1 {
+    color: blue;
+}
+
+.content-container {
+    background-color: rgb(52, 106, 255);
+    height: 60vh;
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.teams-continer {
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* Leaves 10% on each side */
+    margin: 0 auto; /* Centers the container */
+}
+
+.team-container {
+    width: 45%; /* Each item takes up 45% of the container's width */
 }
