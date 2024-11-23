@@ -1,3 +1,6 @@
+document.getElementById('content-container').style.display = 'none';
+document.getElementById('loading-page').style.display = 'block';
+
 let both_teams = [];
 let GKS = [];
 let DEFS = [];
@@ -26,6 +29,8 @@ let teams = [
 
 // Fetch the data from the '/button_scrape' endpoint
 // Make the API call to the backend with the matched URL
+
+
 fetch('/button_scrape', {
     method: 'POST',
     headers: {
@@ -42,6 +47,10 @@ fetch('/button_scrape', {
     .then(data => {
         both_teams = data.both_teams;
         console.log(both_teams)
+
+        document.getElementById('content-container').style.display = 'block';
+        document.getElementById('loading-page').style.display = 'none';
+    
     })
     .catch(error => console.error('Error fetching initial scrape data:', error));         
     

@@ -64,6 +64,15 @@ function configureFuseJS() {
     const searchBar = document.getElementById('search-bar');
     const resultsDropdown = document.getElementById('results');
 
+    // Display the full list of results
+    items.forEach(result => {
+        console.log(result)
+        const option = document.createElement('option');
+        option.value = result.name;
+        option.textContent = result.name
+        resultsDropdown.appendChild(option);
+    });
+
     // Event Listener for Search Bar
     searchBar.addEventListener('input', () => {
         const query = searchBar.value; // Get the current input value
@@ -82,10 +91,13 @@ function configureFuseJS() {
 
         // If no results, show a "No results" message
         if (results.length === 0) {
-            const option = document.createElement('option');
-            option.textContent = "No results found.";
-            option.disabled = true; // make it unselectable
-            resultsDropdown.appendChild(option);
+            items.forEach(result => {
+                console.log(result)
+                const option = document.createElement('option');
+                option.value = result.name;
+                option.textContent = result.name
+                resultsDropdown.appendChild(option);
+            });
         }
     });
 
@@ -95,6 +107,8 @@ function configureFuseJS() {
             select_team(resultsDropdown, 1);
         } else if (team2_name === null) {
             select_team(resultsDropdown, 2);
+            const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
+            fetchLineupsBtn.style.backgroundColor = 'orange';
         }
     });
     
@@ -112,7 +126,16 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     const team2DisplayName = document.getElementById('team2-name')
     team2DisplayName.textContent = "";
     team2DisplayName.value = "";
-    
+    const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
+    fetchLineupsBtn.style.backgroundColor = '#AAAAAA';
+    const team1Img = document.getElementById(`team1-img`);
+    if (team1Img) {
+        team1Img.src = `/static/assets/soccer-ball.png`;
+    }
+    const team2Img = document.getElementById(`team2-img`);
+    if (team2Img) {
+        team2Img.src = `/static/assets/soccer-ball.png`;
+    }
 });
 
 

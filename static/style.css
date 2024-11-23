@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bruno+Ace+SC&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -23,23 +25,161 @@ li {
 }
 
 h1 {
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+}
+
+#title-top {
     color: blue;
+    font-family: "Bruno Ace SC", sans-serif;
+    font-size: 500%;
+}
+
+#title-bottom {
+    color: blue;
+    font-family: "Orbitron", sans-serif;
+    font-size: 400%;
+    font-optical-sizing: auto;
+    margin-top: -2vh; /* Adjust this value to control spacing */}
+
+h2 {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 300%;
+    font-style: normal;      
 }
 
 .content-container {
     background-color: rgb(52, 106, 255);
-    height: 60vh;
+    height: 70vh;
     width: 90vw;
     margin: 0 auto;
+    
+    /* BORDER STYLING  */
+    border: 5px solid #000000; /* Add a border with a nice color */
+    border-radius: 25px; /* Rounded corners */
+    outline: none; /* Remove the default outline on focus */
+    
 }
 
-.teams-continer {
+.search-container {
     display: flex;
-    justify-content: space-between;
-    width: 80%; /* Leaves 10% on each side */
-    margin: 0 auto; /* Centers the container */
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+    padding: 2rem;
+    height: 30vh;
 }
 
-.team-container {
-    width: 45%; /* Each item takes up 45% of the container's width */
+#search-bar { 
+    width: 40%;
+    max-width: 500px; /* Optional: Set a max width for larger screens */
+    height: 5vh; /* Adjust height for a larger search bar */
+    text-align: center;
+    font-size: 200%; /* Larger font size */
+    background-color:gainsboro;
+
+    /* BORDER STYLING  */
+    border: 5px solid #000000; /* Add a border with a nice color */
+    border-radius: 25px; /* Rounded corners */
+    outline: none; /* Remove the default outline on focus */
+
+    padding: 0 15px; /* Add padding for text spacing */
+    box-shadow: 0 9px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    transition: all 0.3s ease; /* Smooth animations for hover/focus */
+}
+
+/* Placeholder text style */
+#search-bar::placeholder {
+    color: #aaa; /* Lighter color for the placeholder */
+    font-style: italic; /* Italicize the placeholder */
+}
+
+/* Hover effect */
+#search-bar:hover {
+    border-color: #000000; /* Darker border on hover */
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5); /* Enhance shadow */
+}
+
+/* Focus effect */
+#search-bar:focus {
+    border-color: #000000; /* Highlight border on focus */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow */
+    background-color: #f9f9f9; /* Optional: Slight background color change */
+}
+
+#results {
+    width: 90%;
+    height: 70%;
+    border: 1px solid #ccc;
+
+    /* BORDER STYLING  */
+    border: 5px solid #000000; /* Add a border with a nice color */
+    outline: none; /* Remove the default outline on focus */
+}
+
+.outcome-container {
+    display: flex;
+    align-items: center;
+    /* height: 30vh; */
+    /* justify-content:space-evenly; */
+}
+
+.teams-container {
+    width: 70%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.icon.team-image {
+    height: 20vh;
+    width: auto;
+    margin-top: -2vh; /* Adjust this value to control spacing */
+}
+
+.team-name {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 200%;
+    font-style: normal;
+    padding-top: -5vh; 
+}
+
+#action-btns-homepage {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.action-btns {
+    text-align: center;
+    font-size: 200%;
+
+    /* BORDER STYLING  */
+    border: 5px solid #000000; /* Add a border with a nice color */
+    border-radius: 25px; /* Rounded corners */
+    outline: none; /* Remove the default outline on focus */
+
+    box-shadow: 0 9px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    transition: all 0.3s ease; /* Smooth animations for hover/focus */
+}
+
+.action-btns:hover {
+    /* Hover effect */
+    border-color: #000000; /* Darker border on hover */
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5); /* Enhance shadow */
+}
+
+#fetch-lineups-btn {
+    width: 80%;
+    background-color: #aaa;
+}
+
+#reset-btn {
+    width: 50%;
+    background-color: #aaa;
 }

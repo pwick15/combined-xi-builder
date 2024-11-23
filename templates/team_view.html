@@ -8,56 +8,61 @@
 
 </head>
 <body>
-    <h1>Team Viewer</h1>
-    <button id="select-gk-btn">Select GK</button>
-    <button class="select-def-btn" id="select-rb-btn" data-position="RB">Select RB</button>
-    <button class="select-def-btn" id="select-cb1-btn" data-position="CB1">Select CB</button>
-    <button class="select-def-btn" id="select-cb2-btn" data-position="CB2">Select CB</button>
-    <button class="select-def-btn" id="select-lb-btn" data-position="LB">Select LB</button>
-    <button class="select-mid-btn" id="select-cdm-btn">Select CDM</button>
-    <button class="select-mid-btn" id="select-cm-btn">Select CM</button>
-    <button class="select-mid-btn" id="select-cam-btn">Select CAM</button>
-    <button class="select-for-btn" id="select-lw-btn">Select LW</button>
-    <button class="select-for-btn" id="select-rw-btn">Select RW</button>
-    <button class="select-for-btn" id="select-st-btn">Select ST</button>
-    <p>Team 1: {{ team1_name }}</p>
-    <p>Team 2: {{ team2_name }}</p>
-    <select id="team-select"></select>
-    <div id="select-container"></div>
-    <h2>Selected XI</h2>
-    <p>GK:</p>
-    <p id="selected-gk">...</p>
-    <img id="selected-gk-img" src="" alt="">
-    <p>RB:</p>
-    <p id="selected-rb">...</p>
-    <img id="selected-rb-img" src="" alt="">
-    <p>CB:</p>
-    <p id="selected-cb1">...</p>
-    <img id="selected-cb1-img" src="" alt="">
-    <p>CB:</p>
-    <p id="selected-cb2">...</p>
-    <img id="selected-cb2-img" src="" alt="">
-    <p>LB:</p>
-    <p id="selected-lb">...</p>
-    <img id="selected-lb-img" src="" alt="">
-    <p>CDM:</p>
-    <p id="selected-cdm">...</p>
-    <img id="selected-cdm-img" src="" alt="">
-    <p>CM:</p>
-    <p id="selected-cm">...</p>
-    <img id="selected-cm-img" src="" alt="">
-    <p>CAM:</p>
-    <p id="selected-cam">...</p>
-    <img id="selected-cam-img" src="" alt="">
-    <p>LW:</p>
-    <p id="selected-lw">...</p>
-    <img id="selected-lw-img" src="" alt="">
-    <p>RW:</p>
-    <p id="selected-rw">...</p>
-    <img id="selected-rw-img" src="" alt="">
-    <p>ST:</p>
-    <p id="selected-st">...</p>
-    <img id="selected-st-img" src="" alt="">
+    <div id="loading-page">
+        <h1>LOADING</h1>
+    </div>
+    <div id="content-container">
+        <h1>Team Viewer</h1>
+        <button id="select-gk-btn">Select GK</button>
+        <button class="select-def-btn" id="select-rb-btn" data-position="RB">Select RB</button>
+        <button class="select-def-btn" id="select-cb1-btn" data-position="CB1">Select CB</button>
+        <button class="select-def-btn" id="select-cb2-btn" data-position="CB2">Select CB</button>
+        <button class="select-def-btn" id="select-lb-btn" data-position="LB">Select LB</button>
+        <button class="select-mid-btn" id="select-cdm-btn">Select CDM</button>
+        <button class="select-mid-btn" id="select-cm-btn">Select CM</button>
+        <button class="select-mid-btn" id="select-cam-btn">Select CAM</button>
+        <button class="select-for-btn" id="select-lw-btn">Select LW</button>
+        <button class="select-for-btn" id="select-rw-btn">Select RW</button>
+        <button class="select-for-btn" id="select-st-btn">Select ST</button>
+        <p>Team 1: {{ team1_name }}</p>
+        <p>Team 2: {{ team2_name }}</p>
+        <select id="team-select"></select>
+        <div id="select-container"></div>
+        <h2>Selected XI</h2>
+        <p>GK:</p>
+        <p id="selected-gk">...</p>
+        <img id="selected-gk-img" src="" alt="">
+        <p>RB:</p>
+        <p id="selected-rb">...</p>
+        <img id="selected-rb-img" src="" alt="">
+        <p>CB:</p>
+        <p id="selected-cb1">...</p>
+        <img id="selected-cb1-img" src="" alt="">
+        <p>CB:</p>
+        <p id="selected-cb2">...</p>
+        <img id="selected-cb2-img" src="" alt="">
+        <p>LB:</p>
+        <p id="selected-lb">...</p>
+        <img id="selected-lb-img" src="" alt="">
+        <p>CDM:</p>
+        <p id="selected-cdm">...</p>
+        <img id="selected-cdm-img" src="" alt="">
+        <p>CM:</p>
+        <p id="selected-cm">...</p>
+        <img id="selected-cm-img" src="" alt="">
+        <p>CAM:</p>
+        <p id="selected-cam">...</p>
+        <img id="selected-cam-img" src="" alt="">
+        <p>LW:</p>
+        <p id="selected-lw">...</p>
+        <img id="selected-lw-img" src="" alt="">
+        <p>RW:</p>
+        <p id="selected-rw">...</p>
+        <img id="selected-rw-img" src="" alt="">
+        <p>ST:</p>
+        <p id="selected-st">...</p>
+        <img id="selected-st-img" src="" alt="">    
+    </div>
     <script src="{{ url_for('static', filename='team_viewer.js') }}"></script>
 </body>
 

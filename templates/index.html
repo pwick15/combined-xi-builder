@@ -6,39 +6,43 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>COMBINED XI BUILDER</h1>
+    <h1 id="title-top">COMBINED XI </h1>
+    <h1 id="title-bottom">BUILDER</h1>
     <div class="content-container">
-        <h2>Search for teams</h2>
-        <input type="text" id="search-bar" placeholder="Type to search..." />
-        <select id="results" size="5" style="width: 300px"></select>
-        <div class="teams-continer">
-            <div class="team-container">
-                <h3>Team 1</h3>
-                <img
-                id="team1-img"
-                src="/static/assets/soccer-ball.png"
-                alt="Team 1 Image"
-                class="icon team-image"
-                width="50px"
-                />
-                <p id="team1-name"></p>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search for teams" />
+            <select id="results" size="50"></select>
+        </div>
+        <div class="outcome-container">
+            <div class="teams-container">
+                <h2>Team 1</h2>
+                <div class="team-container">
+                    <img
+                    id="team1-img"
+                    src="/static/assets/soccer-ball.png"
+                    alt="Team 1 Image"
+                    class="icon team-image"
+                    width="50px"
+                    />
+                    <p class="team-name" id="team1-name"></p>
+                </div>
+                <h2>Team 2</h2>
+                <div class="team-container">
+                    <img
+                    id="team2-img"
+                    src="/static/assets/soccer-ball.png"
+                    alt="Team 2 Image"
+                    class="icon team-image"
+                    width="50px"
+                    />
+                    <p class="team-name" id="team2-name"></p>
+                </div>    
             </div>
-            <div class="team-container">
-                <h3>Team 2</h3>
-                <img
-                id="team2-img"
-                src="/static/assets/soccer-ball.png"
-                alt="Team 2 Image"
-                class="icon team-image"
-                width="50px"
-                />
-                <p id="team2-name"></p>
+            <div id="action-btns-homepage">
+                <button class="action-btns" id="fetch-lineups-btn">Choose Lineups</button>
+                <button class="action-btns" id="reset-btn">Reset</button>
             </div>
         </div>
-        
-
-        <button id="fetch-lineups-btn">Generate</button>
-        <button id="reset-btn">Reset</button>
     </div>
     
     
