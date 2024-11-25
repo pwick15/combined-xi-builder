@@ -1,6 +1,26 @@
-document.getElementById('content-container').style.display = 'none';
-document.getElementById('loading-page').style.display = 'block';
+// Messages for the loading screen
+const messages = [
+    "Initializing...",
+    "Loading assets...",
+    "Preparing data...",
+    "Almost done..."
+];
 
+let messageIndex = 0;
+const messageElement = document.getElementById("loading-message");
+
+// Function to cycle through messages
+function cycleMessages() {
+    messageElement.textContent = messages[messageIndex];
+    messageIndex = (messageIndex + 1) % messages.length;
+}
+
+// Start cycling messages
+let messageInterval = setInterval(cycleMessages, 3000);
+
+// Show the loading page and hide content
+document.getElementById('loading-page').style.display = 'flex';
+document.getElementById('content-container').style.display = 'none';
 let both_teams = [];
 let GKS = [];
 let DEFS = [];
@@ -51,8 +71,16 @@ fetch('/button_scrape', {
         document.getElementById('content-container').style.display = 'block';
         document.getElementById('loading-page').style.display = 'none';
     
+        // Stop cycling messages
+        clearInterval(messageInterval);
     })
-    .catch(error => console.error('Error fetching initial scrape data:', error));         
+    .catch(error => {
+        console.error('Error fetching initial scrape data:', error);
+
+        // Hide the loading page (optional: show an error message)
+        document.getElementById('loading-page').style.display = 'none';
+        clearInterval(messageInterval);
+    });         
     
 
 document.getElementById('select-gk-btn').addEventListener('click', () => {
