@@ -5,12 +5,12 @@ let team2_name = null;
 let team1_url = null;
 let team2_url = null;
 
-function select_team(dropdown_elem, id) {
-    const matchedItem = items.find(item => item.name === dropdown_elem.value);
+function select_team(name, id) {
+    const matchedItem = items.find(item => item.name === name);
     if (matchedItem) {
         const teamName = document.getElementById(`team${id}-name`);
-        teamName.value = dropdown_elem.value;
-        teamName.textContent = dropdown_elem.value;
+        teamName.value = name;
+        teamName.textContent = name;
 
         // Assign directly to global variables
         if (id === 1) {
@@ -62,15 +62,44 @@ function configureFuseJS() {
 
     // HTML Elements for search
     const searchBar = document.getElementById('search-bar');
-    const resultsDropdown = document.getElementById('results');
+
+    const gridContainer = document.getElementById('results-grid');
 
     // Display the full list of results
-    items.forEach(result => {
+    items.forEach((result, i) => {
         console.log(result)
-        const option = document.createElement('option');
-        option.value = result.name;
-        option.textContent = result.name
-        resultsDropdown.appendChild(option);
+        const gridItem = document.createElement('div');
+        gridItem.className = 'grid-item';
+        gridItem.id = `${result.name}-grid-item`;
+
+        // create image element
+        const img = document.createElement('img');
+        img.src = result.img.startsWith('data:image/') 
+        ? result.img 
+        : `data:image/png;base64,${result.img}`;
+        img.alt = `${result.name}-icon`;
+
+        // Create the text element
+        const text = document.createElement('span');
+        text.textContent = result.name;
+
+         // Append the image and text to the grid item
+        gridItem.appendChild(img);
+        gridItem.appendChild(text);
+
+        // Make grid item clickable (optional)
+        gridItem.addEventListener('click', () => {
+            console.log(`Clicked on ${result.name}`);
+            if (team1_name === null) {
+                select_team(result.name, 1);
+            } else if (team2_name === null) {
+                select_team(result.name, 2);
+                const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
+                fetchLineupsBtn.style.backgroundColor = 'orange';
+            }
+        });
+
+        gridContainer.appendChild(gridItem);
     });
 
     // Event Listener for Search Bar
@@ -79,39 +108,95 @@ function configureFuseJS() {
         const results = fuse.search(query); // Perform the fuzzy search
 
         // Clear previous results
-        resultsDropdown.innerHTML = '';
+        gridContainer.innerHTML = '';
 
         // Display the results
-        results.forEach(result => {
-            const option = document.createElement('option');
-            option.value = result.item.name;
-            option.textContent = result.item.name
-            resultsDropdown.appendChild(option);
-        });
+        if (results.length > 0) {
+            results.forEach(result => {
+                // const option = document.createElement('option');
+                // option.value = result.item.name;
+                // option.textContent = result.item.name
+                // resultsDropdown.appendChild(option);
+                const item = result.item; // The matched item from Fuse.js
 
-        // If no results, show a "No results" message
-        if (results.length === 0) {
-            items.forEach(result => {
-                console.log(result)
-                const option = document.createElement('option');
-                option.value = result.name;
-                option.textContent = result.name
-                resultsDropdown.appendChild(option);
+                // Create a new grid item
+                const gridItem = document.createElement('div');
+                gridItem.className = 'grid-item';
+                gridItem.id = `${item.name}-grid-item`;
+
+                 // create image element
+                const img = document.createElement('img');
+                img.src = item.img.startsWith('data:image/') 
+                    ? item.img 
+                    : `data:image/png;base64,${item.img}`;
+                    img.alt = `${item.name}-icon`;
+
+                // Create the text element
+                const text = document.createElement('span');
+                text.textContent = item.name;
+
+                // Append the image and text to the grid item
+                gridItem.appendChild(img);
+                gridItem.appendChild(text);
+
+                // Make grid item clickable (optional)
+                gridItem.addEventListener('click', () => {
+                    console.log(`Clicked on ${item.name}`);
+                    if (team1_name === null) {
+                        select_team(item.name, 1);
+                    } else if (team2_name === null) {
+                        select_team(item.name, 2);
+                        const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
+                        fetchLineupsBtn.style.backgroundColor = 'orange';
+                    }
+                });
+                
+                // Append grid item to the container
+                gridContainer.appendChild(gridItem);
+
             });
-        }
-    });
 
-    // Event Listener for Dropdown Selection
-    resultsDropdown.addEventListener('change', () => {
-        if (team1_name === null) {
-            select_team(resultsDropdown, 1);
-        } else if (team2_name === null) {
-            select_team(resultsDropdown, 2);
-            const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
-            fetchLineupsBtn.style.backgroundColor = 'orange';
+            // If no results, show a "No results" message
+            if (results.length === 0) {
+                // Display the full list of results
+                items.forEach((result, i) => {
+                    console.log(result)
+                    const gridItem = document.createElement('div');
+                    gridItem.className = 'grid-item';
+                    gridItem.id = `${result.name}-grid-item`;
+
+                    // create image element
+                    const img = document.createElement('img');
+                    img.src = result.img.startsWith('data:image/') 
+                    ? result.img 
+                    : `data:image/png;base64,${result.img}`;
+                    img.alt = `${result.name}-icon`;
+
+                    // Create the text element
+                    const text = document.createElement('span');
+                    text.textContent = result.name;
+
+                    // Append the image and text to the grid item
+                    gridItem.appendChild(img);
+                    gridItem.appendChild(text);
+
+                    // Make grid item clickable (optional)
+                    gridItem.addEventListener('click', () => {
+                        console.log(`Clicked on ${result.name}`);
+                        if (team1_name === null) {
+                            select_team(result.name, 1);
+                        } else if (team2_name === null) {
+                            select_team(result.name, 2);
+                            const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
+                            fetchLineupsBtn.style.backgroundColor = 'orange';
+                        }
+                    });
+
+                    gridContainer.appendChild(gridItem);
+                });
+            }
         }
     });
-    
 }
 
 // Call fetchInitialData on page load to fetch and populate items

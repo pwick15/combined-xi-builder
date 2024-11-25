@@ -84,14 +84,16 @@ def create_team(team_name,url):
                         # Encode image as Base64
                         encoded_img = base64.b64encode(img_data).decode('utf-8')
                 player = Player.create_player(player_name, team_name, position.split(","))
-                row_data['team_name'] = player.team
-                row_data['player_name'] = player.name
-                row_data['position'] = player.position
-                row_data['img'] = encoded_img #UNCOMMENT
-                if row_data:
-                    team_json.append(row_data)     
-                if player is not None: 
-                    team.add_player_to_team(player)
+                if player is not None:
+                    row_data['team_name'] = team_name
+                    row_data['player_name'] = player_name
+                    row_data['position'] = player.position
+                    row_data['img'] = encoded_img #UNCOMMENT
+                    if row_data:
+                        team_json.append(row_data)     
+                        team.add_player_to_team(player)
+                    else: 
+                        print('player not added, row_data is None type or empty')
     team.view_team()
     return team, team_json
 
