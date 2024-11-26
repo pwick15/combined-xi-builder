@@ -4,6 +4,8 @@ let team1_name = null;
 let team2_name = null;
 let team1_url = null;
 let team2_url = null;
+let team1_img = null;
+let team2_img = null;
 
 function select_team(name, id) {
     const matchedItem = items.find(item => item.name === name);
@@ -16,9 +18,11 @@ function select_team(name, id) {
         if (id === 1) {
             team1_name = matchedItem.name;
             team1_url = matchedItem.url;
+            team1_img = matchedItem.img;
         } else if (id === 2) {
             team2_name = matchedItem.name;
             team2_url = matchedItem.url;
+            team2_img = matchedItem.img;
         }
 
         // Update the image
@@ -199,6 +203,7 @@ function configureFuseJS() {
     });
 }
 
+// TODO add loading page 
 // Call fetchInitialData on page load to fetch and populate items
 fetchInitialData();
 
@@ -228,6 +233,6 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
     // Navigate to the '/team_view' route with team1 and team2 as query parameters
     if (team1_name != null && team2_name != null){
-        window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}`;
+        window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}&team1_img=${encodeURIComponent(team1_img)}&team2_img=${encodeURIComponent(team2_img)}`;
     }
 });

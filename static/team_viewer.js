@@ -38,14 +38,32 @@ const team1_name = getQueryParameter('team1_name');
 const team2_name = getQueryParameter('team2_name');
 const team1_url = getQueryParameter('team1_url');
 const team2_url = getQueryParameter('team2_url');
+const team1_img = getQueryParameter('team1_img');
+const team2_img = getQueryParameter('team2_img');
 
-console.log(`Team 1: ${team1_name} w/ url: ${team1_url}`);
-console.log(`Team 2: ${team2_name} w/ url: ${team2_url}`);
+console.log(`Team 1: ${team1_name} w/ url: ${team1_url} and img: ${team1_img}`);
+console.log(`Team 2: ${team2_name} w/ url: ${team2_url} and img: ${team2_img}`);
+
+const team1Badge = document.getElementById('team1-counter-img');
+    if (team1Badge && team1_img) {
+        team1Badge.src = team1_img.startsWith('data:image/') 
+        ? team1_img
+        : `data:image/png;base64,${team1_img}`;
+    }
+
+const team2Badge = document.getElementById('team2-counter-img');
+    if (team2Badge && team2_img) {
+        team2Badge.src = team2_img.startsWith('data:image/') 
+        ? team2_img
+        : `data:image/png;base64,${team2_img}`;
+    }
 
 let teams = [
     { name: team1_name, url: team1_url },
     { name: team2_name, url: team2_url }
 ];
+
+
 
 // Fetch the data from the '/button_scrape' endpoint
 // Make the API call to the backend with the matched URL

@@ -41,7 +41,8 @@ h1 {
     font-family: "Orbitron", sans-serif;
     font-size: 400%;
     font-optical-sizing: auto;
-    margin-top: -2vh; /* Adjust this value to control spacing */}
+    margin-top: -2vh; /* Adjust this value to control spacing */
+}
 
 h2 {
     font-family: "Bebas Neue", sans-serif;
