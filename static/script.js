@@ -233,6 +233,6 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
     // Navigate to the '/team_view' route with team1 and team2 as query parameters
     if (team1_name != null && team2_name != null){
-        window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}&team1_img=${encodeURIComponent(team1_img)}&team2_img=${encodeURIComponent(team2_img)}`;
+        window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}`;
     }
 });

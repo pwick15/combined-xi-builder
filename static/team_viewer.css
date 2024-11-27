@@ -158,6 +158,21 @@ h1 {
     object-fit: cover;
 }
 
+.team-badge-wrapper {
+    flex: 1; /* Allocate remaining space for the image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevent overflow if the image is larger than the container */
+    padding: 4px;
+}
+
+.team-badge-wrapper img {
+    width: auto; /* Maintain aspect ratio */
+    height: 100%; /* Scale height to fit container */
+    object-fit: contain; /* Ensure the entire image fits within the container */
+}
+
 .card-separator {
     width: 100%;
     height: 2px;

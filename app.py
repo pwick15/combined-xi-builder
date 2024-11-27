@@ -164,6 +164,50 @@ def initial_scrape_endpoint():
     save_csv_data(cached_data.values())
     return jsonify(new_data)
 
+
+# Flask API endpoint for initial scrape
+@app.route('/get_chosen_team_badges', methods=['POST'])
+def get_chosen_team_badges_endpoint():
+    team1_url, team2_url = (
+        request.json.get(key) for key in ['team1_url', 'team2_url'])
+    print(f'ENTERED API TO GET TEAM BADGE.\nt1 url: {team1_url} \nt2 url: {team2_url}')
+    urls = [BASE_URL + team1_url, BASE_URL + team2_url]
+    print(f'urls: {urls}')
+    new_data = []
+
+    for url in urls:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        row30 = soup.find(class_ = 'row-30')  # Find the tbody tag
+        row_data = {}
+        if row30:
+            print('found1')
+            img_container = row30.find(class_ = 'player-img')  # Find all tr tags within tbody
+            if img_container:
+                print('found2')
+                img_tag = img_container.find('img', class_='lozad img-fluid img-thumbnail')
+                if img_tag:
+                    print('found3')
+                    img_url = img_tag.get('data-src', img_tag.get('src'))
+                    if img_url:
+                        print('found4')
+                        try:
+                            img_response = requests.get(img_url)
+                            img_response.raise_for_status()
+                            img_data = img_response.content
+                            # Encode image as Base64
+                            encoded_img = base64.b64encode(img_data).decode('utf-8')
+                        except requests.RequestException as e:
+                            print(f"Failed to download image {img_url}: {e}")
+                            encoded_img = None
+                        print(encoded_img)
+                        row_data['img'] = encoded_img
+        if row_data:
+            new_data.append(row_data)
+    print(new_data)
+    return jsonify(new_data)
+
 # Function for button-triggered scrape
 @app.route('/button_scrape', methods=['POST'])
 def button_scrape_endpoint():

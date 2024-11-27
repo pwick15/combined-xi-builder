@@ -26,6 +26,8 @@ let GKS = [];
 let DEFS = [];
 let MIDS = [];
 let FORS = [];
+let team1_img = null;
+let team2_img = null;
 
 // Function to get a query parameter by name
 function getQueryParameter(name) {
@@ -38,25 +40,52 @@ const team1_name = getQueryParameter('team1_name');
 const team2_name = getQueryParameter('team2_name');
 const team1_url = getQueryParameter('team1_url');
 const team2_url = getQueryParameter('team2_url');
-const team1_img = getQueryParameter('team1_img');
-const team2_img = getQueryParameter('team2_img');
 
-console.log(`Team 1: ${team1_name} w/ url: ${team1_url} and img: ${team1_img}`);
-console.log(`Team 2: ${team2_name} w/ url: ${team2_url} and img: ${team2_img}`);
+fetch('/get_chosen_team_badges', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ 
+        team1_url: team1_url,
+        team2_url: team2_url
+    })  // Send the matched 'url'
+})   
+    .then(response => response.json())
+    .then(data => {
+        console.log('logging team badge retrieve')
+        console.log(data)
+        team1_img = data[0].img
+        console.log('successful save img1')
+        team2_img = data[1].img
+        console.log('successful save img2')
 
-const team1Badge = document.getElementById('team1-counter-img');
-    if (team1Badge && team1_img) {
-        team1Badge.src = team1_img.startsWith('data:image/') 
-        ? team1_img
-        : `data:image/png;base64,${team1_img}`;
-    }
 
-const team2Badge = document.getElementById('team2-counter-img');
-    if (team2Badge && team2_img) {
-        team2Badge.src = team2_img.startsWith('data:image/') 
-        ? team2_img
-        : `data:image/png;base64,${team2_img}`;
-    }
+        // console.log(`Team 1: ${team1_name} w/ url: ${team1_url}`);
+        console.log(`Team 1: ${team1_name} w/ url: ${team1_url} and img: ${team1_img}`);
+        // console.log(`Team 2: ${team2_name} w/ url: ${team2_url}`);
+        console.log(`Team 2: ${team2_name} w/ url: ${team2_url} and img: ${team2_img}`);
+
+        const team1Badge = document.getElementById('team1-counter-img');
+            if (team1Badge && team1_img) {
+                team1Badge.src = team1_img.startsWith('data:image/') 
+                ? team1_img
+                : `data:image/png;base64,${team1_img}`;
+            }
+
+        const team2Badge = document.getElementById('team2-counter-img');
+            if (team2Badge && team2_img) {
+                team2Badge.src = team2_img.startsWith('data:image/') 
+                ? team2_img
+                : `data:image/png;base64,${team2_img}`;
+            }
+    })
+    .catch(error => {
+        console.error('Error fetching initial scrape data:', error);
+
+    });  
+
+    
 
 let teams = [
     { name: team1_name, url: team1_url },
@@ -134,7 +163,7 @@ document.getElementById('select-cam-btn').addEventListener('click', () => {
 });
 
 document.getElementById('select-lw-btn').addEventListener('click', () => {
-    select_player(FORS, "FOR", 'selected-lw', 'selected-lw-img')   
+    select_player(FORS, "FOR", 'selected-lw', 'selected-lw-img');
 });
 
 document.getElementById('select-rw-btn').addEventListener('click', () => {
@@ -181,12 +210,31 @@ function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
         const matchedItem = pos_list.find(item => item.player_name === select.value);
         console.log(matchedItem);
 
-
         const selectedPlayerImg = document.getElementById(pos_img_html_id);
         if (selectedPlayerImg && matchedItem.img) {
             selectedPlayerImg.src = matchedItem.img.startsWith('data:image/') 
             ? matchedItem.img 
             : `data:image/png;base64,${matchedItem.img}`;
         }
+
+        console.log(`team-${pos_html_id}`)
+        const selectedPlayerTeamImg = document.getElementById(`team-${pos_img_html_id}`);
+        console.log(matchedItem.team_name);
+        if (matchedItem.team_name === team1_name) {
+            console.log(team1_name)
+            if (selectedPlayerTeamImg && team1_img) {
+                selectedPlayerTeamImg.src = team1_img.startsWith('data:image/') 
+                ? team1_img
+                : `data:image/png;base64,${team1_img}`;
+            }
+        } 
+        if (matchedItem.team_name === team2_name) {
+            console.log(team2_name)
+            if (selectedPlayerTeamImg && team2_img) {
+                selectedPlayerTeamImg.src = team2_img.startsWith('data:image/') 
+                ? team2_img
+                : `data:image/png;base64,${team2_img}`;
+            }
+        } 
     });
 }
