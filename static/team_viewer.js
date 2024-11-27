@@ -28,6 +28,8 @@ let MIDS = [];
 let FORS = [];
 let team1_img = null;
 let team2_img = null;
+let team1_selection_count = 0;
+let team2_selection_count = 0;
 
 // Function to get a query parameter by name
 function getQueryParameter(name) {
@@ -226,6 +228,10 @@ function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
                 selectedPlayerTeamImg.src = team1_img.startsWith('data:image/') 
                 ? team1_img
                 : `data:image/png;base64,${team1_img}`;
+                team1_selection_count = team1_selection_count + 1;
+                const team1Count = document.getElementById('team1-counter-value');
+                team1Count.value = team1_selection_count;
+                team1Count.textContent = team1_selection_count;
             }
         } 
         if (matchedItem.team_name === team2_name) {
@@ -234,6 +240,10 @@ function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
                 selectedPlayerTeamImg.src = team2_img.startsWith('data:image/') 
                 ? team2_img
                 : `data:image/png;base64,${team2_img}`;
+                team2_selection_count = team2_selection_count + 1;
+                const team2Count = document.getElementById('team2-counter-value');
+                team2Count.value = team2_selection_count;
+                team2Count.textContent = team2_selection_count;
             }
         } 
     });
