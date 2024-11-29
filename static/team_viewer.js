@@ -28,9 +28,20 @@ let MIDS = [];
 let FORS = [];
 let team1_img = null;
 let team2_img = null;
-let team1_selection_count = 0;
-let team2_selection_count = 0;
-
+let selected_team = {
+    "gk": 0,  // Goalkeeper
+    "lb": 0,  // Left Back
+    "cb1": 0, // Center Back 1
+    "cb2": 0, // Center Back 2
+    "rb": 0,  // Right Back
+    "cdm": 0, // Central Defensive Midfielder
+    "cm": 0,  // Central Midfielder
+    "cam": 0, // Central Attacking Midfielder
+    "lw": 0,  // Left Winger
+    "rw": 0,  // Right Winger
+    "st": 0   // Striker
+  };
+  
 // Function to get a query parameter by name
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -133,51 +144,51 @@ fetch('/button_scrape', {
     
 
 document.getElementById('select-gk-btn').addEventListener('click', () => {
-    select_player(GKS, "GK", 'selected-gk', 'selected-gk-img')
+    select_player(GKS, "GK", 'gk')
 });
 
 document.getElementById('select-rb-btn').addEventListener('click', () => {
-    select_player(DEFS, "DEF", 'selected-rb', 'selected-rb-img')   
+    select_player(DEFS, "DEF", 'rb')   
 });
 
 document.getElementById('select-cb1-btn').addEventListener('click', () => {
-    select_player(DEFS, "DEF", 'selected-cb1', 'selected-cb1-img')   
+    select_player(DEFS, "DEF", 'cb1')   
 });
 
 document.getElementById('select-cb2-btn').addEventListener('click', () => {
-    select_player(DEFS, "DEF", 'selected-cb2', 'selected-cb2-img')   
+    select_player(DEFS, "DEF", 'cb2')   
 });
 
 document.getElementById('select-lb-btn').addEventListener('click', () => {
-    select_player(DEFS, "DEF", 'selected-lb', 'selected-lb-img')   
+    select_player(DEFS, "DEF", 'lb')   
 });
 
 document.getElementById('select-cdm-btn').addEventListener('click', () => {
-    select_player(MIDS, "MID", 'selected-cdm', 'selected-cdm-img')   
+    select_player(MIDS, "MID", 'cdm')   
 });
 
 document.getElementById('select-cm-btn').addEventListener('click', () => {
-    select_player(MIDS, "MID", 'selected-cm', 'selected-cm-img')   
+    select_player(MIDS, "MID", 'cm')   
 });
 
 document.getElementById('select-cam-btn').addEventListener('click', () => {
-    select_player(MIDS, "MID", 'selected-cam', 'selected-cam-img')   
+    select_player(MIDS, "MID", 'cam')   
 });
 
 document.getElementById('select-lw-btn').addEventListener('click', () => {
-    select_player(FORS, "FOR", 'selected-lw', 'selected-lw-img');
+    select_player(FORS, "FOR", 'lw');
 });
 
 document.getElementById('select-rw-btn').addEventListener('click', () => {
-    select_player(FORS, "FOR", 'selected-rw', 'selected-rw-img')   
+    select_player(FORS, "FOR", 'rw')   
 });
 
 document.getElementById('select-st-btn').addEventListener('click', () => {
-    select_player(FORS, "FOR", 'selected-st', 'selected-st-img')   
+    select_player(FORS, "FOR", 'st')   
 });
 
 
-function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
+function select_player(pos_list, target_pos_str, pos_id) {
     
     // Dynamically create a new select element for GK selection
     const select = document.createElement('select');
@@ -207,31 +218,30 @@ function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
 
     // Add event listener for selection change
     select.addEventListener('change', () => {
-        const selectedPlayer = document.getElementById(pos_html_id);
+        console.log(`HELLO: selected-${pos_id}`)
+        const selectedPlayer = document.getElementById(`selected-${pos_id}`);
         selectedPlayer.textContent = select.value;
         const matchedItem = pos_list.find(item => item.player_name === select.value);
         console.log(matchedItem);
 
-        const selectedPlayerImg = document.getElementById(pos_img_html_id);
+        const selectedPlayerImg = document.getElementById(`selected-${pos_id}-img`);
         if (selectedPlayerImg && matchedItem.img) {
             selectedPlayerImg.src = matchedItem.img.startsWith('data:image/') 
             ? matchedItem.img 
             : `data:image/png;base64,${matchedItem.img}`;
         }
 
-        console.log(`team-${pos_html_id}`)
-        const selectedPlayerTeamImg = document.getElementById(`team-${pos_img_html_id}`);
+        console.log(`team-selected-${pos_id}-img`)
+        const selectedPlayerTeamImg = document.getElementById(`team-selected-${pos_id}-img`);
         console.log(matchedItem.team_name);
+        
         if (matchedItem.team_name === team1_name) {
             console.log(team1_name)
             if (selectedPlayerTeamImg && team1_img) {
                 selectedPlayerTeamImg.src = team1_img.startsWith('data:image/') 
                 ? team1_img
                 : `data:image/png;base64,${team1_img}`;
-                team1_selection_count = team1_selection_count + 1;
-                const team1Count = document.getElementById('team1-counter-value');
-                team1Count.value = team1_selection_count;
-                team1Count.textContent = team1_selection_count;
+                selected_team[`${pos_id}`] = 1;
             }
         } 
         if (matchedItem.team_name === team2_name) {
@@ -240,11 +250,28 @@ function select_player(pos_list, target_pos_str, pos_html_id, pos_img_html_id) {
                 selectedPlayerTeamImg.src = team2_img.startsWith('data:image/') 
                 ? team2_img
                 : `data:image/png;base64,${team2_img}`;
-                team2_selection_count = team2_selection_count + 1;
-                const team2Count = document.getElementById('team2-counter-value');
-                team2Count.value = team2_selection_count;
-                team2Count.textContent = team2_selection_count;
+                selected_team[`${pos_id}`] = -1;
             }
         } 
+
+        let t1_count = 0;
+        let t2_count = 0;
+        Object.entries(selected_team).forEach(([position, data]) => {
+            console.log(`Position: ${position}, Data: ${data}`);
+            if (data === 1) {
+                t1_count = t1_count + 1;
+            }
+            if (data === -1) {
+                t2_count = t2_count + 1;
+            }
+        });
+        const team1Count = document.getElementById('team1-counter-value');
+        team1Count.value = t1_count;
+        team1Count.textContent = t1_count;
+
+        const team2Count = document.getElementById('team2-counter-value');
+        team2Count.value = t2_count;
+        team2Count.textContent = t2_count;
+
     });
 }
