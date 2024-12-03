@@ -143,47 +143,47 @@ fetch('/button_scrape', {
     });         
     
 
-document.getElementById('select-gk-btn').addEventListener('click', () => {
+document.getElementById('gk-card').addEventListener('click', () => {
     select_player(GKS, "GK", 'gk')
 });
 
-document.getElementById('select-rb-btn').addEventListener('click', () => {
+document.getElementById('rb-card').addEventListener('click', () => {
     select_player(DEFS, "DEF", 'rb')   
 });
 
-document.getElementById('select-cb1-btn').addEventListener('click', () => {
+document.getElementById('cb1-card').addEventListener('click', () => {
     select_player(DEFS, "DEF", 'cb1')   
 });
 
-document.getElementById('select-cb2-btn').addEventListener('click', () => {
+document.getElementById('cb2-card').addEventListener('click', () => {
     select_player(DEFS, "DEF", 'cb2')   
 });
 
-document.getElementById('select-lb-btn').addEventListener('click', () => {
+document.getElementById('lb-card').addEventListener('click', () => {
     select_player(DEFS, "DEF", 'lb')   
 });
 
-document.getElementById('select-cdm-btn').addEventListener('click', () => {
+document.getElementById('cdm-card').addEventListener('click', () => {
     select_player(MIDS, "MID", 'cdm')   
 });
 
-document.getElementById('select-cm-btn').addEventListener('click', () => {
+document.getElementById('cm-card').addEventListener('click', () => {
     select_player(MIDS, "MID", 'cm')   
 });
 
-document.getElementById('select-cam-btn').addEventListener('click', () => {
+document.getElementById('cam-card').addEventListener('click', () => {
     select_player(MIDS, "MID", 'cam')   
 });
 
-document.getElementById('select-lw-btn').addEventListener('click', () => {
+document.getElementById('lw-card').addEventListener('click', () => {
     select_player(FORS, "FOR", 'lw');
 });
 
-document.getElementById('select-rw-btn').addEventListener('click', () => {
+document.getElementById('rw-card').addEventListener('click', () => {
     select_player(FORS, "FOR", 'rw')   
 });
 
-document.getElementById('select-st-btn').addEventListener('click', () => {
+document.getElementById('st-card').addEventListener('click', () => {
     select_player(FORS, "FOR", 'st')   
 });
 

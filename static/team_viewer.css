@@ -30,11 +30,17 @@ h1 {
     margin: 0;
 }
 
-.team-view,
-.team-counter-value {
+.team-view {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 700;
     font-size: 500%;
+}
+
+.team-counter-value {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 700;
+    font-size: 800%;
+    margin: 2rem;
 }
 
 .team-view-name {
@@ -135,18 +141,14 @@ h1 {
     height: auto;
 }
 
-
-
-
 .all-positions-container { 
     margin: 1rem;
 }
 
-.position-container {
+.position-third-container {
     display: flex;
     justify-content: center;
 }
-
 
 .fifa-card {
     width: 200px;
@@ -154,13 +156,19 @@ h1 {
     background-color:rgb(234, 245, 245);
     border: 2px solid #000000;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
     margin: 5px 20px;
 }
+
+.fifa-card:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
 
 .player-image {
     padding: 5%;
