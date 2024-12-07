@@ -1,3 +1,8 @@
+/* TODO: 
+- Add testing code
+- Refactor with design patterns
+- Utilise database for storage of data
+*/
 // Messages for the loading screen
 const messages = [
     "Initializing...",
@@ -17,6 +22,15 @@ function cycleMessages() {
 
 // Start cycling messages
 let messageInterval = setInterval(cycleMessages, 3000);
+
+// pop up for player selection
+function showPopup() {
+    document.body.classList.add("popup-active");
+}
+  
+function closePopup() {
+    document.body.classList.remove("popup-active");
+}
 
 // Show the loading page and hide content
 document.getElementById('loading-page').style.display = 'flex';
@@ -191,87 +205,165 @@ document.getElementById('st-card').addEventListener('click', () => {
 function select_player(pos_list, target_pos_str, pos_id) {
     
     // Dynamically create a new select element for GK selection
-    const select = document.createElement('select');
-    select.innerHTML = '<option value="" disabled selected>Select a player</option>';
-
+    
     if (pos_list.length === 0) {
-        console.log(pos_list);
         both_teams.forEach(player => {
             if (player.position === target_pos_str) {
                 pos_list.push(player);
             }
         })
+        console.log("Extracted players from position group");
     }
     console.log(pos_list);
 
-    pos_list.forEach(player => {
-        const option = document.createElement('option');
-        option.value = player.player_name;
-        option.textContent = `${player.player_name}, ${player.team_name}`;
-        select.appendChild(option);
-    });
-
     // Append to the body or a container
-    const container = document.getElementById('select-container');
+    const container = document.getElementById('popup-player-options');
     container.innerHTML = ''; // Clear previous selections
-    container.appendChild(select);
 
-    // Add event listener for selection change
-    select.addEventListener('change', () => {
-        console.log(`HELLO: selected-${pos_id}`)
-        const selectedPlayer = document.getElementById(`selected-${pos_id}`);
-        selectedPlayer.textContent = select.value;
-        const matchedItem = pos_list.find(item => item.player_name === select.value);
-        console.log(matchedItem);
+    pos_list.forEach(player => {
+        console.log(player)
+        // Create the fifa-card container
+        const card = document.createElement('div');
+        card.className = 'fifa-card';
 
-        const selectedPlayerImg = document.getElementById(`selected-${pos_id}-img`);
-        if (selectedPlayerImg && matchedItem.img) {
-            selectedPlayerImg.src = matchedItem.img.startsWith('data:image/') 
-            ? matchedItem.img 
-            : `data:image/png;base64,${matchedItem.img}`;
+        // Add player image
+        const playerImg = document.createElement('img');
+        playerImg.src = player.img.startsWith('data:image/') 
+            ? player.img
+            : `data:image/png;base64,${player.img}`;
+        playerImg.alt = 'Player Image';
+        playerImg.className = 'player-image';
+        card.appendChild(playerImg);
+
+        // Add card separator
+        const separator = document.createElement('div');
+        separator.className = 'card-separator';
+        card.appendChild(separator);
+
+        // Add player name
+        const playerName = document.createElement('p');
+        playerName.className = 'player-name';
+        playerName.id = `options-${pos_id}`;
+        playerName.textContent = player.player_name;
+        card.appendChild(playerName);
+
+        // Add team badge wrapper
+        const badgeWrapper = document.createElement('div');
+        badgeWrapper.className = 'team-badge-wrapper';
+
+
+        const teamImg = document.createElement('img');
+        let chosen_img = null;
+        if (player.team_name === team1_name) {
+            chosen_img = team1_img; 
+        }
+        else if (player.team_name === team2_name) {
+            chosen_img = team2_img;
+        }
+        else { 
+            chosen_img = '../static/assets/soccer-ball.png';
         }
 
-        console.log(`team-selected-${pos_id}-img`)
-        const selectedPlayerTeamImg = document.getElementById(`team-selected-${pos_id}-img`);
-        console.log(matchedItem.team_name);
-        
-        if (matchedItem.team_name === team1_name) {
-            console.log(team1_name)
-            if (selectedPlayerTeamImg && team1_img) {
-                selectedPlayerTeamImg.src = team1_img.startsWith('data:image/') 
-                ? team1_img
-                : `data:image/png;base64,${team1_img}`;
-                selected_team[`${pos_id}`] = 1;
-            }
-        } 
-        if (matchedItem.team_name === team2_name) {
-            console.log(team2_name)
-            if (selectedPlayerTeamImg && team2_img) {
-                selectedPlayerTeamImg.src = team2_img.startsWith('data:image/') 
-                ? team2_img
-                : `data:image/png;base64,${team2_img}`;
-                selected_team[`${pos_id}`] = -1;
-            }
-        } 
+        teamImg.src = chosen_img.startsWith('data:image/') 
+            ? chosen_img
+            : `data:image/png;base64,${chosen_img}`;
 
-        let t1_count = 0;
-        let t2_count = 0;
-        Object.entries(selected_team).forEach(([position, data]) => {
-            console.log(`Position: ${position}, Data: ${data}`);
-            if (data === 1) {
-                t1_count = t1_count + 1;
-            }
-            if (data === -1) {
-                t2_count = t2_count + 1;
-            }
-        });
-        const team1Count = document.getElementById('team1-counter-value');
-        team1Count.value = t1_count;
-        team1Count.textContent = t1_count;
+        teamImg.alt = 'Team Badge';
+        teamImg.className = 'player-team-image';
+        badgeWrapper.appendChild(teamImg);
+        card.appendChild(badgeWrapper);
 
-        const team2Count = document.getElementById('team2-counter-value');
-        team2Count.value = t2_count;
-        team2Count.textContent = t2_count;
-
+        // Append the card to the container
+        container.appendChild(card);
     });
+
+    showPopup();
+
+
+    // Get all top-level div elements (direct children of the container)
+    const cards = Array.from(container.children).filter(child => child.tagName === 'DIV');
+
+    // Loop through each top-level div
+    cards.forEach(card => {
+        // Add event listener or perform other actions
+        card.addEventListener('click', () => {
+            console.log(`HELLO: selected-${pos_id}`)
+            const selectedPlayer = document.getElementById(`selected-${pos_id}`);
+
+            // Get the player name element (assuming it's inside the clicked card)
+            const chosenPlayerElement = card.querySelector(`#options-${pos_id}`);
+                    
+            // Ensure the element exists before accessing its content
+            let chosenPlayerName = '';
+            if (chosenPlayerElement) {
+                chosenPlayerName = chosenPlayerElement.textContent; // Get the player's name
+            } else {
+                console.warn(`Element with ID 'selected-${pos_id}' not found inside the card.`);
+            }
+            console.log(chosenPlayerName);
+
+            const matchedItem = pos_list.find(item => item.player_name === chosenPlayerName);
+            console.log(matchedItem);
+    
+            // Add player name
+            const playerName = document.getElementById(`selected-${pos_id}`);
+            playerName.textContent = chosenPlayerName;
+            console.log(playerName.textContent);
+
+
+            const selectedPlayerImg = document.getElementById(`selected-${pos_id}-img`);
+            if (selectedPlayerImg && matchedItem.img) {
+                selectedPlayerImg.src = matchedItem.img.startsWith('data:image/') 
+                ? matchedItem.img 
+                : `data:image/png;base64,${matchedItem.img}`;
+            }
+    
+            console.log(`team-selected-${pos_id}-img`)
+            const selectedPlayerTeamImg = document.getElementById(`team-selected-${pos_id}-img`);
+            console.log(matchedItem.team_name);
+            
+            if (matchedItem.team_name === team1_name) {
+                console.log(team1_name)
+                if (selectedPlayerTeamImg && team1_img) {
+                    console.log('t1_img')
+                    selectedPlayerTeamImg.src = team1_img.startsWith('data:image/') 
+                    ? team1_img
+                    : `data:image/png;base64,${team1_img}`;
+                    selected_team[`${pos_id}`] = 1;
+                }
+            } 
+            if (matchedItem.team_name === team2_name) {
+                console.log(team2_name)
+                if (selectedPlayerTeamImg && team2_img) {
+                    console.log('t2_img')
+                    selectedPlayerTeamImg.src = team2_img.startsWith('data:image/') 
+                    ? team2_img
+                    : `data:image/png;base64,${team2_img}`;
+                    selected_team[`${pos_id}`] = -1;
+                }
+            } 
+    
+            let t1_count = 0;
+            let t2_count = 0;
+            Object.entries(selected_team).forEach(([position, data]) => {
+                console.log(`Position: ${position}, Data: ${data}`);
+                if (data === 1) {
+                    t1_count = t1_count + 1;
+                }
+                if (data === -1) {
+                    t2_count = t2_count + 1;
+                }
+            });
+            const team1Count = document.getElementById('team1-counter-value');
+            team1Count.value = t1_count;
+            team1Count.textContent = t1_count;
+    
+            const team2Count = document.getElementById('team2-counter-value');
+            team2Count.value = t2_count;
+            team2Count.textContent = t2_count;
+    
+            closePopup();
+        });
+    });
+    
 }

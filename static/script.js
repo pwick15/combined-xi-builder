@@ -7,6 +7,7 @@ let team2_url = null;
 let team1_img = null;
 let team2_img = null;
 
+  
 function select_team(name, id) {
     const matchedItem = items.find(item => item.name === name);
     if (matchedItem) {
