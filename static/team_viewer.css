@@ -119,10 +119,13 @@ h1 {
 }
 
 .content-container {
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    display: flex;          /* Enable flexbox */
+    flex-direction: column; /* Stack the children vertically */
+    justify-content: center; /* Center the items vertically */
+    align-items: center;     /* Center the items horizontally */
+    margin: 0 auto;         /* Center the container itself */
 }
+
 
 .main-container {
     display: flex;
@@ -250,7 +253,7 @@ body.popup-active::before {
 #popup-player-options {
     flex-grow: 1;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px; /* Larger spacing between grid items */
     overflow-y: auto;
     padding: 10px;

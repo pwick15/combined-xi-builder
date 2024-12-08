@@ -1,239 +1,142 @@
-// Define the 'items' array outside the fetch call to make it accessible globally
-let items = [];
-let team1_name = null;
-let team2_name = null;
-let team1_url = null;
-let team2_url = null;
-let team1_img = null;
-let team2_img = null;
-
-  
-function select_team(name, id) {
-    const matchedItem = items.find(item => item.name === name);
-    if (matchedItem) {
-        const teamName = document.getElementById(`team${id}-name`);
-        teamName.value = name;
-        teamName.textContent = name;
-
-        // Assign directly to global variables
-        if (id === 1) {
-            team1_name = matchedItem.name;
-            team1_url = matchedItem.url;
-            team1_img = matchedItem.img;
-        } else if (id === 2) {
-            team2_name = matchedItem.name;
-            team2_url = matchedItem.url;
-            team2_img = matchedItem.img;
-        }
-
-        // Update the image
-        const teamImg = document.getElementById(`team${id}-img`);
-        if (teamImg && matchedItem.img) {
-            teamImg.src = matchedItem.img.startsWith('data:image/') 
-                ? matchedItem.img 
-                : `data:image/png;base64,${matchedItem.img}`;
-        }
-    } else {
-        console.log('No match found.');
+class TeamSelector {
+    constructor() {
+        this.items = [];
+        this.selectedTeams = [
+            { name: null, url: null, img: null },
+            { name: null, url: null, img: null }
+        ];
     }
-}
 
+    // Fetch initial data and configure Fuse.js
+    initialize() {
+        this.fetchInitialData().then(() => this.configureFuseJS());
+        this.addEventListeners();
+    }
 
-// Function to fetch initial scrape data and populate items (this will run once)
-function fetchInitialData() {
-    fetch('/initial_scrape')
-        .then(response => response.json())
-        .then(data => {
-            // Map the fetched data to the 'items' array
-            items = data.map(item => ({
+    async fetchInitialData() {
+        try {
+            const response = await fetch('/initial_scrape');
+            const data = await response.json();
+            this.items = data.map(item => ({
                 name: item.team_name,
                 url: item.url,
-                img: item.img  // Include the Base64 image string TODO uncomment to get images back
-
+                img: item.img
             }));
-            // Now that 'items' is populated, configure Fuse.js (this part only runs once)
-            console.log(items);
-            configureFuseJS();   
-        })
-        .catch(error => console.error('Error fetching initial scrape data:', error));
-}
+            console.log(this.items);
+        } catch (error) {
+            console.error('Error fetching initial scrape data:', error);
+        }
+    }
 
-// Function to configure Fuse.js (this will run after initial fetch)
-function configureFuseJS() {
-    const fuse = new Fuse(items, {
-        keys: ['name'], // Fields to search in
-        threshold: 0.1, // Fuzziness of the match
-    });
+    selectTeam(name, id) {
+        const matchedItem = this.items.find(item => item.name === name);
+        if (matchedItem) {
+            this.selectedTeams[id - 1] = { ...matchedItem };
+            const teamNameEl = document.getElementById(`team${id}-name`);
+            teamNameEl.value = name;
+            teamNameEl.textContent = name;
 
-    // HTML Elements for search
-    const searchBar = document.getElementById('search-bar');
+            const teamImgEl = document.getElementById(`team${id}-img`);
+            if (teamImgEl) {
+                teamImgEl.src = matchedItem.img.startsWith('data:image/')
+                    ? matchedItem.img
+                    : `data:image/png;base64,${matchedItem.img}`;
+            }
 
-    const gridContainer = document.getElementById('results-grid');
+            // Highlight fetch button when both teams are selected
+            if (this.selectedTeams[0].name && this.selectedTeams[1].name) {
+                document.getElementById('fetch-lineups-btn').style.backgroundColor = 'orange';
+            }
+        } else {
+            console.log('No match found.');
+        }
+    }
 
-    // Display the full list of results
-    items.forEach((result, i) => {
-        console.log(result)
-        const gridItem = document.createElement('div');
-        gridItem.className = 'grid-item';
-        gridItem.id = `${result.name}-grid-item`;
+    configureFuseJS() {
+        const fuse = new Fuse(this.items, {
+            keys: ['name'],
+            threshold: 0.1
+        });
 
-        // create image element
-        const img = document.createElement('img');
-        img.src = result.img.startsWith('data:image/') 
-        ? result.img 
-        : `data:image/png;base64,${result.img}`;
-        img.alt = `${result.name}-icon`;
+        const searchBar = document.getElementById('search-bar');
+        const gridContainer = document.getElementById('results-grid');
 
-        // Create the text element
-        const text = document.createElement('span');
-        text.textContent = result.name;
+        // Populate grid with all items
+        this.populateGrid(gridContainer, this.items);
 
-         // Append the image and text to the grid item
-        gridItem.appendChild(img);
-        gridItem.appendChild(text);
+        searchBar.addEventListener('input', () => {
+            const query = searchBar.value;
+            const results = fuse.search(query).map(result => result.item);
+            gridContainer.innerHTML = '';
+            this.populateGrid(gridContainer, query.length === 0 ? this.items : results);
+        });
+    }
 
-        // Make grid item clickable (optional)
-        gridItem.addEventListener('click', () => {
-            console.log(`Clicked on ${result.name}`);
-            if (team1_name === null) {
-                select_team(result.name, 1);
-            } else if (team2_name === null) {
-                select_team(result.name, 2);
-                const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
-                fetchLineupsBtn.style.backgroundColor = 'orange';
+    populateGrid(container, items) {
+        items.forEach(item => {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'grid-item';
+            gridItem.id = `${item.name}-grid-item`;
+
+            const img = document.createElement('img');
+            img.src = item.img.startsWith('data:image/')
+                ? item.img
+                : `data:image/png;base64,${item.img}`;
+            img.alt = `${item.name}-icon`;
+
+            const text = document.createElement('span');
+            text.textContent = item.name;
+
+            gridItem.appendChild(img);
+            gridItem.appendChild(text);
+
+            gridItem.addEventListener('click', () => {
+                console.log(`Clicked on ${item.name}`);
+                if (!this.selectedTeams[0].name) {
+                    this.selectTeam(item.name, 1);
+                } else if (!this.selectedTeams[1].name) {
+                    this.selectTeam(item.name, 2);
+                }
+            });
+
+            container.appendChild(gridItem);
+        });
+    }
+
+    resetSelection() {
+        this.selectedTeams = [
+            { name: null, url: null, img: null },
+            { name: null, url: null, img: null }
+        ];
+
+        ['team1', 'team2'].forEach(team => {
+            const teamNameEl = document.getElementById(`${team}-name`);
+            teamNameEl.value = '';
+            teamNameEl.textContent = '';
+
+            const teamImgEl = document.getElementById(`${team}-img`);
+            if (teamImgEl) {
+                teamImgEl.src = '/static/assets/soccer-ball.png';
             }
         });
 
-        gridContainer.appendChild(gridItem);
-    });
+        document.getElementById('fetch-lineups-btn').style.backgroundColor = '#AAAAAA';
+    }
 
-    // Event Listener for Search Bar
-    searchBar.addEventListener('input', () => {
-        const query = searchBar.value; // Get the current input value
-        const results = fuse.search(query); // Perform the fuzzy search
-
-        // Clear previous results
-        gridContainer.innerHTML = '';
-
-        // Display the results
-        if (results.length > 0) {
-            results.forEach(result => {
-                // const option = document.createElement('option');
-                // option.value = result.item.name;
-                // option.textContent = result.item.name
-                // resultsDropdown.appendChild(option);
-                const item = result.item; // The matched item from Fuse.js
-
-                // Create a new grid item
-                const gridItem = document.createElement('div');
-                gridItem.className = 'grid-item';
-                gridItem.id = `${item.name}-grid-item`;
-
-                 // create image element
-                const img = document.createElement('img');
-                img.src = item.img.startsWith('data:image/') 
-                    ? item.img 
-                    : `data:image/png;base64,${item.img}`;
-                    img.alt = `${item.name}-icon`;
-
-                // Create the text element
-                const text = document.createElement('span');
-                text.textContent = item.name;
-
-                // Append the image and text to the grid item
-                gridItem.appendChild(img);
-                gridItem.appendChild(text);
-
-                // Make grid item clickable (optional)
-                gridItem.addEventListener('click', () => {
-                    console.log(`Clicked on ${item.name}`);
-                    if (team1_name === null) {
-                        select_team(item.name, 1);
-                    } else if (team2_name === null) {
-                        select_team(item.name, 2);
-                        const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
-                        fetchLineupsBtn.style.backgroundColor = 'orange';
-                    }
-                });
-                
-                // Append grid item to the container
-                gridContainer.appendChild(gridItem);
-
-            });
-
-            // If no results, show a "No results" message
-            if (results.length === 0) {
-                // Display the full list of results
-                items.forEach((result, i) => {
-                    console.log(result)
-                    const gridItem = document.createElement('div');
-                    gridItem.className = 'grid-item';
-                    gridItem.id = `${result.name}-grid-item`;
-
-                    // create image element
-                    const img = document.createElement('img');
-                    img.src = result.img.startsWith('data:image/') 
-                    ? result.img 
-                    : `data:image/png;base64,${result.img}`;
-                    img.alt = `${result.name}-icon`;
-
-                    // Create the text element
-                    const text = document.createElement('span');
-                    text.textContent = result.name;
-
-                    // Append the image and text to the grid item
-                    gridItem.appendChild(img);
-                    gridItem.appendChild(text);
-
-                    // Make grid item clickable (optional)
-                    gridItem.addEventListener('click', () => {
-                        console.log(`Clicked on ${result.name}`);
-                        if (team1_name === null) {
-                            select_team(result.name, 1);
-                        } else if (team2_name === null) {
-                            select_team(result.name, 2);
-                            const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
-                            fetchLineupsBtn.style.backgroundColor = 'orange';
-                        }
-                    });
-
-                    gridContainer.appendChild(gridItem);
-                });
-            }
+    navigateToLineups() {
+        if (this.selectedTeams[0].name && this.selectedTeams[1].name) {
+            const team1 = this.selectedTeams[0];
+            const team2 = this.selectedTeams[1];
+            window.location.href = `/team_view?team1_name=${encodeURIComponent(team1.name)}&team2_name=${encodeURIComponent(team2.name)}&team1_url=${encodeURIComponent(team1.url)}&team2_url=${encodeURIComponent(team2.url)}`;
         }
-    });
+    }
+
+    addEventListeners() {
+        document.getElementById('reset-btn').addEventListener('click', () => this.resetSelection());
+        document.getElementById('fetch-lineups-btn').addEventListener('click', () => this.navigateToLineups());
+    }
 }
 
-// TODO add loading page 
-// Call fetchInitialData on page load to fetch and populate items
-fetchInitialData();
-
-document.getElementById('reset-btn').addEventListener('click', () => {
-    team1_name = null;
-    team2_name = null;
-    const team1DisplayName = document.getElementById('team1-name')
-    team1DisplayName.textContent = "";
-    team1DisplayName.value = "";
-    const team2DisplayName = document.getElementById('team2-name')
-    team2DisplayName.textContent = "";
-    team2DisplayName.value = "";
-    const fetchLineupsBtn = document.getElementById('fetch-lineups-btn');
-    fetchLineupsBtn.style.backgroundColor = '#AAAAAA';
-    const team1Img = document.getElementById(`team1-img`);
-    if (team1Img) {
-        team1Img.src = `/static/assets/soccer-ball.png`;
-    }
-    const team2Img = document.getElementById(`team2-img`);
-    if (team2Img) {
-        team2Img.src = `/static/assets/soccer-ball.png`;
-    }
-});
-
-
-// Button Fetch Event for '/button_scrape' endpoint
-document.getElementById('fetch-lineups-btn').addEventListener('click', () => {
-    // Navigate to the '/team_view' route with team1 and team2 as query parameters
-    if (team1_name != null && team2_name != null){
-        window.location.href = `/team_view?team1_name=${encodeURIComponent(team1_name)}&team2_name=${encodeURIComponent(team2_name)}&team1_url=${encodeURIComponent(team1_url)}&team2_url=${encodeURIComponent(team2_url)}`;
-    }
-});
+// Instantiate and initialize the TeamSelector class
+const teamSelector = new TeamSelector();
+teamSelector.initialize();
