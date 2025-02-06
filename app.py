@@ -170,9 +170,7 @@ def initial_scrape_endpoint():
 def get_chosen_team_badges_endpoint():
     team1_url, team2_url = (
         request.json.get(key) for key in ['team1_url', 'team2_url'])
-    print(f'ENTERED API TO GET TEAM BADGE.\nt1 url: {team1_url} \nt2 url: {team2_url}')
     urls = [BASE_URL + team1_url, BASE_URL + team2_url]
-    print(f'urls: {urls}')
     new_data = []
 
     for url in urls:
@@ -182,16 +180,12 @@ def get_chosen_team_badges_endpoint():
         row30 = soup.find(class_ = 'row-30')  # Find the tbody tag
         row_data = {}
         if row30:
-            print('found1')
             img_container = row30.find(class_ = 'player-img')  # Find all tr tags within tbody
             if img_container:
-                print('found2')
                 img_tag = img_container.find('img', class_='lozad img-fluid img-thumbnail')
                 if img_tag:
-                    print('found3')
                     img_url = img_tag.get('data-src', img_tag.get('src'))
                     if img_url:
-                        print('found4')
                         try:
                             img_response = requests.get(img_url)
                             img_response.raise_for_status()
@@ -201,11 +195,9 @@ def get_chosen_team_badges_endpoint():
                         except requests.RequestException as e:
                             print(f"Failed to download image {img_url}: {e}")
                             encoded_img = None
-                        print(encoded_img)
                         row_data['img'] = encoded_img
         if row_data:
             new_data.append(row_data)
-    print(new_data)
     return jsonify(new_data)
 
 # Function for button-triggered scrape
@@ -281,8 +273,6 @@ def team_view():
     team2_name = request.args.get('team2_name')
     team1_url = request.args.get('team1_url')
     team2_url = request.args.get('team2_url')
-    print(team1_name, team1_url)
-    print(team2_name, team2_url)
     return render_template('team_view.html', team1_name=team1_name, team2_name=team2_name, team1_url=team1_url, team2_url=team2_url)
 
 if __name__ == '__main__':

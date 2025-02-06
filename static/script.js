@@ -22,7 +22,6 @@ class TeamSelector {
                 url: item.url,
                 img: item.img
             }));
-            console.log(this.items);
         } catch (error) {
             console.error('Error fetching initial scrape data:', error);
         }
@@ -91,7 +90,6 @@ class TeamSelector {
             gridItem.appendChild(text);
 
             gridItem.addEventListener('click', () => {
-                console.log(`Clicked on ${item.name}`);
                 if (!this.selectedTeams[0].name) {
                     this.selectTeam(item.name, 1);
                 } else if (!this.selectedTeams[1].name) {

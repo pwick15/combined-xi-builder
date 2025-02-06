@@ -1,3 +1,6 @@
+
+// TODO: Split the pop up window into 2 sections. Team 1 side and Team 2 side
+
 class CombinedXIViewer {
     constructor() {
         this.messages = [
@@ -234,6 +237,7 @@ class CombinedXIViewer {
         }
         if (teamImgElement) {
             teamImgElement.src = this.getTeamImage(player.team_name);
+            teamImgElement.style.display = "block";  // Corrected line
         }
 
         this.updateTeamSelection(player.team_name, posID);
