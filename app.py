@@ -8,10 +8,11 @@ import base64
 from utils.data_manager import *
 
 ''' TODO LIST
+TODO: Add animations 
+TODO: Split the pop up window into 2 sections. Team 1 side and Team 2 side
 TODO change website for better scalability.
 Use: https://www.playmakerstats.com/competition/la-liga
 Limit the scope to the top 5 leagues.
-TODO save the scraped data locally to improve efficiency (avoid repeatedly downloading images)
 '''
 
 BASE_URL = "https://en.soccerwiki.org/"
