@@ -12,10 +12,10 @@ The **Combined XI Builder** is a web-based tool for football fans to create a co
 
 ## Screenshots
 ### Team Selection Screen
-![Team Selection](images/team-selection.png)
+![Team Selection](images/team_selection.png)
 
 ### Lineup Selection Screen
-![Lineup Selection](images/player_select.png)
+![Lineup Selection](images/player_selection.png)
 
 ### Final Combined XI
 ![Final Combined XI](images/final.png)
