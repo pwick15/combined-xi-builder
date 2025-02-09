@@ -54,11 +54,21 @@ class CombinedXIViewer {
         clearInterval(this.messageInterval);
     }
 
-    fetchTeamData() {
+    async fetchTeamData() {
         const queryParams = this.getQueryParams();
-        this.fetchTeamBadges(queryParams);
-        this.fetchPlayerData(queryParams);
+        
+        try {
+            await Promise.all([
+                this.fetchTeamBadges(queryParams),
+                this.fetchPlayerData(queryParams)
+            ]);
+            
+            this.stopLoadingScreen(); // This runs only after both functions complete
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     }
+    
 
     getQueryParams() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -106,12 +116,10 @@ class CombinedXIViewer {
             });
             const data = await response.json();
             this.bothTeams = data.both_teams;
-            this.stopLoadingScreen();
             console.log("successfully retrived all player data")
             console.log(this.bothTeams)
         } catch (error) {
             console.error("Error fetching player data:", error);
-            this.stopLoadingScreen(); // Optionally display an error message
         }
     }
 

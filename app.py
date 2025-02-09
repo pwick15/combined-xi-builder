@@ -5,9 +5,7 @@ from core.team import *
 from core.player import *
 import os
 import base64
-import csv
-
-csv.field_size_limit(1000000)  # 1 MB limit (for example)
+from utils.data_manager import *
 
 ''' TODO LIST
 TODO change website for better scalability.
@@ -16,53 +14,16 @@ Limit the scope to the top 5 leagues.
 TODO save the scraped data locally to improve efficiency (avoid repeatedly downloading images)
 '''
 
-TEAM_CSV_FILE = 'data/team_data.csv'
-PLAYER_CSV_FILE = 'data/player_data.csv'
 BASE_URL = "https://en.soccerwiki.org/"
 team1 = None
 team2 = None
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-def load_team_data():
-    """Load existing team data from the CSV file."""
-    if not os.path.exists(TEAM_CSV_FILE):
-        return {}
-    with open(TEAM_CSV_FILE, mode="r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        return {row['team_name']: row for row in reader}
-
-def save_team_data(data):
-    """Save team data to the CSV file."""
-    with open(TEAM_CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
-        fieldnames = ['team_name', 'url', 'img']
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(data)
-
-def load_player_data():
-    """Load existing player data from the CSV file."""
-    if not os.path.exists(PLAYER_CSV_FILE):
-        return {}
-    with open(PLAYER_CSV_FILE, mode="r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        return {row['player_name']: row for row in reader}
-
-def save_player_data(data):
-    """Save player data to the CSV file."""
-    print("PERSISTING PLAYER DATA")
-    with open(PLAYER_CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
-        fieldnames = ['player_name', 'team_name', 'img', 'position']
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(data)
-        print("Writing player data...")
-
 # Serve the HTML frontend
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('homepage.html')
 
 
 # Given a team name and url, request relevant data and create a Team object 
@@ -304,7 +265,7 @@ def select_for():
 #     # Pass query parameters to the template if needed
 #     team1 = request.args.get('team1')
 #     team2 = request.args.get('team2')
-#     return render_template('team_view.html', team1=team1, team2=team2)
+#     return render_template('team_viewer.html', team1=team1, team2=team2)
 
 @app.route('/team_view')
 def team_view():
@@ -313,7 +274,7 @@ def team_view():
     team2_name = request.args.get('team2_name')
     team1_url = request.args.get('team1_url')
     team2_url = request.args.get('team2_url')
-    return render_template('team_view.html', team1_name=team1_name, team2_name=team2_name, team1_url=team1_url, team2_url=team2_url)
+    return render_template('team_viewer.html', team1_name=team1_name, team2_name=team2_name, team1_url=team1_url, team2_url=team2_url)
 
 if __name__ == '__main__':
     app.run(debug=True)
