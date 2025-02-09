@@ -95,10 +95,6 @@ def create_team(team_name,url):
     return team, team_json
 
     
-# Persist data for global access 
-def persist_team_data(id, team):
-    session[f'team{id}'] = team.name
-    session[f'team{id}_players'] = [player.__dict__ for player in team.players]   
 
 # Flask API endpoint for initial scrape
 @app.route('/initial_scrape')
