@@ -1,4 +1,4 @@
-from player import *
+from core.player import *
 
 class Team:
     def __init__(self, name):
@@ -31,13 +31,13 @@ class Team:
         print(f'PLAYERS OF {self.name.upper()}')
         print(f'\nGOALKEEPERS:')
         for player in gks:
-            print(f'{player.name}')
+            print(f'{player.player_name}')
         print(f'\nDEFENDERS:')
         for player in defs:
-            print(f'{player.name}')
+            print(f'{player.player_name}')
         print(f'\nMIDFIELDERS:')
         for player in mids:
-            print(f'{player.name}')
+            print(f'{player.player_name}')
         print(f'\nFORWARDS:')
         for player in fors:
-            print(f'{player.name}')
+            print(f'{player.player_name}')

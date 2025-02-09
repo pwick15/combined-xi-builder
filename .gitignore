@@ -3,3 +3,18 @@ __init__.py
 __pycache__/
 */.DS_Store
 data
+
+
+.ipynb_checkpoints
+*.pyc
+./*.pyc
+*pycache*
+
+
+# Ignore compiled Python files
+*.pyc
+**/*.pyc
+
+# Ignore __pycache__ directories
+__pycache__/
+**/__pycache__/

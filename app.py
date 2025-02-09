@@ -1,12 +1,13 @@
 from flask import Flask, render_template, jsonify, request, session
 import requests
 from bs4 import BeautifulSoup
-from team import *
-from player import *
+from core.team import *
+from core.player import *
 import os
 import base64
 import csv
 
+csv.field_size_limit(1000000)  # 1 MB limit (for example)
 
 ''' TODO LIST
 TODO change website for better scalability.
@@ -15,7 +16,8 @@ Limit the scope to the top 5 leagues.
 TODO save the scraped data locally to improve efficiency (avoid repeatedly downloading images)
 '''
 
-CSV_FILE = 'data/team_data.csv'
+TEAM_CSV_FILE = 'data/team_data.csv'
+PLAYER_CSV_FILE = 'data/player_data.csv'
 BASE_URL = "https://en.soccerwiki.org/"
 team1 = None
 team2 = None
@@ -23,21 +25,39 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 
-def load_csv_data():
+def load_team_data():
     """Load existing team data from the CSV file."""
-    if not os.path.exists(CSV_FILE):
+    if not os.path.exists(TEAM_CSV_FILE):
         return {}
-    with open(CSV_FILE, mode="r", encoding="utf-8") as f:
+    with open(TEAM_CSV_FILE, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         return {row['team_name']: row for row in reader}
 
-def save_csv_data(data):
+def save_team_data(data):
     """Save team data to the CSV file."""
-    with open(CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
+    with open(TEAM_CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
         fieldnames = ['team_name', 'url', 'img']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(data)
+
+def load_player_data():
+    """Load existing player data from the CSV file."""
+    if not os.path.exists(PLAYER_CSV_FILE):
+        return {}
+    with open(PLAYER_CSV_FILE, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return {row['player_name']: row for row in reader}
+
+def save_player_data(data):
+    """Save player data to the CSV file."""
+    print("PERSISTING PLAYER DATA")
+    with open(PLAYER_CSV_FILE, mode="w", encoding="utf-8", newline="") as f:
+        fieldnames = ['player_name', 'team_name', 'img', 'position']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(data)
+        print("Writing player data...")
 
 # Serve the HTML frontend
 @app.route('/')
@@ -51,8 +71,10 @@ def create_team(team_name,url):
     if not url:
         print("error: No URL provided for Team 1")
     
+    cached_data = load_player_data()  # Load the cached CSV data
     team_json = []
     team = Team(team_name)
+    new_data_count = 0
 
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -72,29 +94,43 @@ def create_team(team_name,url):
                 position = cols[4].text.strip()
 
                 # Fetch the image if not already in the cache
-
-                # UNCOMMENT BELOW TO STORE IMAGES
-                img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
-                if img_tag:
-                    img_url = img_tag.get('data-src', img_tag.get('src'))
-                    if img_url:
-                        img_response = requests.get(img_url)
-                        img_response.raise_for_status()
-                        img_data = img_response.content
-                        # Encode image as Base64
-                        encoded_img = base64.b64encode(img_data).decode('utf-8')
+                if player_name in cached_data and cached_data[player_name]['img']:
+                    print("FOUND PLAYER IN CACHE")
+                    encoded_img = cached_data[player_name]['img']
+                else:
+                    print("FETCHING PLAYER DATA")
+                    # UNCOMMENT BELOW TO STORE IMAGES
+                    img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
+                    if img_tag:
+                        img_url = img_tag.get('data-src', img_tag.get('src'))
+                        if img_url:
+                            img_response = requests.get(img_url)
+                            img_response.raise_for_status()
+                            img_data = img_response.content
+                            # Encode image as Base64
+                            encoded_img = base64.b64encode(img_data).decode('utf-8')
                 player = Player.create_player(player_name, team_name, position.split(","))
                 if player is not None:
-                    row_data['team_name'] = team_name
                     row_data['player_name'] = player_name
-                    row_data['position'] = player.position
+                    row_data['team_name'] = team_name
                     row_data['img'] = encoded_img #UNCOMMENT
+                    row_data['position'] = player.position
                     if row_data:
+                        # Save new data to cache
+                        cached_data[player_name] = {
+                            'player_name': player_name,
+                            'team_name': team_name,
+                            'img': encoded_img,
+                            'position': position
+                        }
+                        new_data_count += 1
                         team_json.append(row_data)     
                         team.add_player_to_team(player)
                     else: 
                         print('player not added, row_data is None type or empty')
     team.view_team()
+    if new_data_count > 0:
+        save_player_data(cached_data.values())
     return team, team_json
 
     
@@ -110,12 +146,13 @@ def initial_scrape_endpoint():
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    cached_data = load_csv_data()  # Load the cached CSV data
+    cached_data = load_team_data()  # Load the cached CSV data
     new_data = []
 
     tbody = soup.find('tbody')  # Find the tbody tag
     if tbody:
         rows = tbody.find_all('tr')  # Find all tr tags within tbody
+        count = 0
         for row in rows:
             row_data = {}
 
@@ -129,11 +166,14 @@ def initial_scrape_endpoint():
 
                     # Check if this team already exists in the cache
                     if team_name in cached_data and cached_data[team_name]['url'] == href:
+                        print("TEAM EXISTS IN CACHE")
+                        count += 1
                         row_data['team_name'] = team_name
                         row_data['url'] = href
                         row_data['img'] = cached_data[team_name]['img']  # Use cached image
                     else:
                         # Fetch the image if not already in the cache
+                        print("FETCHING TEAM DATA")
                         img_tag = row.find('img', class_='lozad img-fluid img-thumbnail')
                         if img_tag:
                             img_url = img_tag.get('data-src', img_tag.get('src'))
@@ -159,9 +199,9 @@ def initial_scrape_endpoint():
                                     row_data['img'] = None
             if row_data:
                 new_data.append(row_data)
-
+        print(count)
     # Save updated cache to CSV
-    save_csv_data(cached_data.values())
+    save_team_data(cached_data.values())
     return jsonify(new_data)
 
 
@@ -221,7 +261,7 @@ def select_gk():
     team2_players = session.get('team2_players', [])
     all_players = team1_players + team2_players
 
-    gks = [{"name": player['name'], "team": player['team']} for player in all_players if "GK" in player['position']]
+    gks = [{"name": player['player_name'], "team": player['team_name']} for player in all_players if "GK" in player['position']]
     return jsonify(gks)
 
 @app.route('/select_def')
@@ -232,7 +272,7 @@ def select_def():
     team2_players = session.get('team2_players', [])
     all_players = team1_players + team2_players
 
-    defs = [{"name": player['name'], "team": player['team']} for player in all_players if "DEF" in player['position']]
+    defs = [{"name": player['player_name'], "team": player['team_name']} for player in all_players if "DEF" in player['position']]
     return jsonify(defs) 
 
 @app.route('/select_mid')
@@ -243,7 +283,7 @@ def select_mid():
     team2_players = session.get('team2_players', [])
     all_players = team1_players + team2_players
 
-    mids = [{"name": player['name'], "team": player['team']} for player in all_players if "MID" in player['position']]
+    mids = [{"name": player['player_name'], "team": player['team_name']} for player in all_players if "MID" in player['position']]
     return jsonify(mids) 
 
 @app.route('/select_for')
@@ -254,7 +294,7 @@ def select_for():
     team2_players = session.get('team2_players', [])
     all_players = team1_players + team2_players
 
-    fors = [{"name": player['name'], "team": player['team']} for player in all_players if "FOR" in player['position']]
+    fors = [{"name": player['player_name'], "team": player['team_name']} for player in all_players if "FOR" in player['position']]
     return jsonify(fors) 
 
 # TODO add a fetch API callback to handle updating team lists when a player is chosen. Add attribute to players like 'Chosen', and set it 
