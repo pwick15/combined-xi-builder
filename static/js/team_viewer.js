@@ -1,14 +1,15 @@
 
-// TODO: Split the pop up window into 2 sections. Team 1 side and Team 2 side
-
 class CombinedXIViewer {
     constructor() {
         this.messages = [
-            "Initializing...",
-            "Loading assets...",
-            "Preparing data...",
-            "Almost done..."
+            "Warming up...",
+            "Analyzing heatmaps…",
+            "Analyzing heatmaps…",
+            "Finalizing the lineup...",
+            "Running a fitness test...",
+            "Kick-off imminent..."
         ];
+
         this.messageIndex = 0;
         this.messageInterval = null;
         this.bothTeams = [];

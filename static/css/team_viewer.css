@@ -85,16 +85,18 @@ h1 {
 #loading-message {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    animation: cycleMessages 6s infinite;
 }
 
-#loading-animation {
+#loading-ring {
     width: 50px;
     height: 50px;
     border: 5px solid #fff;
     border-radius: 50%;
     border-top: 5px solid transparent;
-    animation: spin 2s linear infinite;
+    animation-name: spin;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
 }
 
 /* Animation for the spinner */
@@ -107,21 +109,6 @@ h1 {
     }
 }
 
-/* Animation for the cycling messages */
-@keyframes cycleMessages {
-    0% {
-        content: "Initializing...";
-    }
-    33% {
-        content: "Loading assets...";
-    }
-    66% {
-        content: "Preparing data...";
-    }
-    100% {
-        content: "Almost done...";
-    }
-}
 
 .content-container {
     display: flex;          /* Enable flexbox */
