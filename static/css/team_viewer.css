@@ -53,18 +53,20 @@ h1 {
     font-weight: 400;
     font-size: 300%;
 }
+
 #title-top {
     color: blue;
     font-family: "Bruno Ace SC", sans-serif;
-    font-size: 500%;
+    font-size: 400%;
+    margin-top: -3vh;
 }
 
 #title-bottom {
     color: blue;
     font-family: "Orbitron", sans-serif;
-    font-size: 400%;
+    font-size: 300%;
     font-optical-sizing: auto;
-    margin-top: -2vh; /* Adjust this value to control spacing */
+    margin-top: -2vh;
 }
 
 #loading-page {
@@ -118,10 +120,61 @@ h1 {
     margin: 0 auto;         /* Center the container itself */
 }
 
+.parent-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 80vh; */
+    position: relative;
+}
 
 .main-container {
+    background-color: rgb(52, 106, 255);
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
+    border-radius: 25px; /* Rounded corners */
+    outline: none; /* Remove the default outline on focus */
+    position: relative;
+    padding: 1rem 3rem;
+    margin-top: 1.5rem
+}
+
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.main-container::after, .main-container::before {
+    /* background-color: red; */
+    content: ''; /* render pseudo element */
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 10px;
+    border-radius: 25px;
+    background-image: conic-gradient(from var(--angle), blue, rgb(160, 2, 251), blue, rgb(160, 2, 251), blue);    
+    animation: rotate 5s linear infinite;
+}
+
+.main-container::before {
+    filter: blur(10px);
+    opacity: 0.5;
+}
+
+@keyframes rotate {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: -360deg;
+    }
 }
 
 .team-count-container {

@@ -32,15 +32,16 @@ h1 {
 #title-top {
     color: blue;
     font-family: "Bruno Ace SC", sans-serif;
-    font-size: 500%;
+    font-size: 400%;
+    margin-top: -3vh;
 }
 
 #title-bottom {
     color: blue;
     font-family: "Orbitron", sans-serif;
-    font-size: 400%;
+    font-size: 300%;
     font-optical-sizing: auto;
-    margin-top: -2vh; /* Adjust this value to control spacing */
+    margin-top: -2vh;
 }
 
 h2 {
@@ -50,20 +51,60 @@ h2 {
     font-style: normal;      
 }
 
+.parent-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    position: relative;
+}
+
 .content-container {
     background-color: rgb(52, 106, 255);
-    height: 70vh;
+    height: 74vh;
     width: 90vw;
-    margin: 0 auto;
-    
-    /* align-items: center; */
-    /* justify-content:space-evenly; */
     
     /* BORDER STYLING  */
-    border: 5px solid #000000; /* Add a border with a nice color */
     border-radius: 25px; /* Rounded corners */
     outline: none; /* Remove the default outline on focus */
     
+    position: relative;
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.content-container::after, .content-container::before {
+    /* background-color: red; */
+    content: ''; /* render pseudo element */
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 10px;
+    border-radius: 25px;
+    background-image: conic-gradient(from var(--angle), blue, rgb(160, 2, 251), blue, rgb(160, 2, 251), blue);    
+    animation: rotate 5s linear infinite;
+}
+
+.content-container::before {
+    filter: blur(10px);
+    opacity: 0.5;
+}
+
+@keyframes rotate {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: -360deg;
+    }
 }
 
 .search-container {
@@ -127,10 +168,10 @@ h2 {
     grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: 100px;
     /* gap: 5px; */
-    height: 24vh;
+    height: 28vh;
     overflow-y: scroll;
     width: 90%;
-    background-color: #e7dede;
+    background-color: #e3e4f0;
 
 
     /* BORDER STYLING  */
@@ -153,6 +194,7 @@ h2 {
     color: rgb(0, 0, 0);
     cursor: pointer;
     user-select: none;
+
 }
 
 .grid-item img {
@@ -162,15 +204,17 @@ h2 {
 }
 
 .grid-item:hover {
-    background-color: #bbb4b4;
+    background-color: #adaeb9;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 120%;
+    font-weight: bold;  /* This makes the text bold on hover */
 }
 
 .outcome-container {
     display: flex;
     align-items: center;
-    margin: 20px;
-    /* height: 30vh; */
-    /* justify-content:space-evenly; */
+    margin-top: -3vh;
 }
 
 .teams-container {
@@ -183,9 +227,7 @@ h2 {
 
 .icon.team-image {
     height: 20vh;
-    width: auto;
-    margin-top: -2vh; /* Adjust this value to control spacing */
-}
+    width: auto;}
 
 .team-name {
     font-family: "Roboto", sans-serif;
