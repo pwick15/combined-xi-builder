@@ -34,12 +34,15 @@ class TeamSelector {
             const teamNameEl = document.getElementById(`team${id}-name`);
             teamNameEl.value = name;
             teamNameEl.textContent = name;
+            teamNameEl.classList.add('grow');
 
             const teamImgEl = document.getElementById(`team${id}-img`);
             if (teamImgEl) {
                 teamImgEl.src = matchedItem.img.startsWith('data:image/')
                     ? matchedItem.img
                     : `data:image/png;base64,${matchedItem.img}`;
+                // Trigger the grow animation
+                teamImgEl.classList.add('grow');
             }
 
             // Highlight fetch button when both teams are selected
@@ -111,10 +114,12 @@ class TeamSelector {
             const teamNameEl = document.getElementById(`${team}-name`);
             teamNameEl.value = '';
             teamNameEl.textContent = '';
+            teamNameEl.classList.remove('grow');
 
             const teamImgEl = document.getElementById(`${team}-img`);
             if (teamImgEl) {
-                teamImgEl.src = '/static/assets/soccer-ball.png';
+                teamImgEl.src = '/static/assets/soccer-jersey.png';
+                teamImgEl.classList.remove('grow');
             }
         });
 

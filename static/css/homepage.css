@@ -187,14 +187,36 @@ h2 {
     color: white;
 }
 
+@keyframes grow {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .icon.team-image {
     height: 20vh;
-    width: auto;}
+    width: auto;
+    transform-origin: center;
+    transition: transform 1s ease;
+}
+
+.icon.team-image.grow {
+    animation: grow 1s ease forwards;
+}
 
 .team-name {
     font-weight: 500;
     font-size: clamp(1rem, 5vh, 2rem);
     margin: 0.75rem 0;;
+}
+
+.team-name.grow {
+    animation: grow 1s ease forwards;
 }
 
 /*  ACTION BUTTONS */
