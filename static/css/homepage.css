@@ -1,74 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bruno+Ace+SC&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 20px;
-    background-color: rgb(148, 192, 230);
-    align-items: center;
+:root {
+    --vibrant-azure: #346AFF;
+    --custom-border: 5px solid #000;
+    --main-div-border-radius: 30px;
 }
 
+/*  GLOBAL STYLING */
+body {
+    font-family: -apple-system, Robotico, Arial, sans-serif;
+    margin: 20px;
+    background-color: rgb(148, 192, 230);
+    text-align: center;
+}
+
+/*  BUTTON STYLING */
 button {
     padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin: 5px 0;
-}
-
+/*  HEADINGS */
 h1 {
     font-weight: 400;
-    font-style: normal;
+    text-align: center;
     margin: 0;
+    color: blue;
 }
 
 #title-top {
-    color: blue;
     font-family: "Bruno Ace SC", sans-serif;
     font-size: 400%;
-    margin-top: -3vh;
+    margin-top: -10px;
 }
 
 #title-bottom {
-    color: blue;
     font-family: "Orbitron", sans-serif;
     font-size: 300%;
-    font-optical-sizing: auto;
-    margin-top: -2vh;
+    margin-top: -15px;
 }
 
 h2 {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-size: 300%;
-    font-style: normal;      
 }
 
+/*  CONTAINER HIERARCHY */
 .parent-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
+    margin: 2vh 0;
     position: relative;
 }
 
+/*  ANIMATE BORDER */
 .content-container {
-    background-color: rgb(52, 106, 255);
-    height: 74vh;
+    background-color: var(--vibrant-azure);
     width: 90vw;
-    
-    /* BORDER STYLING  */
-    border-radius: 25px; /* Rounded corners */
-    outline: none; /* Remove the default outline on focus */
-    
+    border-radius: var(--main-div-border-radius); 
+    outline: none;
     position: relative;
+}
+
+.content-container::before {
+    filter: blur(10px);
+    opacity: 0.5;
 }
 
 @property --angle {
@@ -78,7 +76,6 @@ h2 {
 }
 
 .content-container::after, .content-container::before {
-    /* background-color: red; */
     content: ''; /* render pseudo element */
     position: absolute;
     height: 100%;
@@ -88,95 +85,66 @@ h2 {
     translate: -50% -50%;
     z-index: -1;
     padding: 10px;
-    border-radius: 25px;
+    border-radius: calc(var(--main-div-border-radius) + 7px);
     background-image: conic-gradient(from var(--angle), blue, rgb(160, 2, 251), blue, rgb(160, 2, 251), blue);    
     animation: rotate 5s linear infinite;
 }
 
-.content-container::before {
-    filter: blur(10px);
-    opacity: 0.5;
-}
-
 @keyframes rotate {
-    from {
-        --angle: 0deg;
-    }
-    to {
-        --angle: -360deg;
-    }
+    from { --angle: 0deg; }
+    to { --angle: -360deg; }
 }
 
+/*  SEARCH CONTAINER */
 .search-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1vh;
-    padding: 2rem;
-    /* height: 35vh; */
+    padding: 1rem;
 }
 
 #search-bar { 
     width: 40%;
-    max-width: 500px; /* Optional: Set a max width for larger screens */
-    height: 5vh; /* Adjust height for a larger search bar */
+    max-width: 500px; 
+    height: 5vh; 
     text-align: center;
-    font-size: 200%; /* Larger font size */
-    background-color:gainsboro;
-
-    /* BORDER STYLING  */
-    border: 5px solid #000000; /* Add a border with a nice color */
-    border-radius: 25px; /* Rounded corners */
-    outline: none; /* Remove the default outline on focus */
-
-    padding: 0 15px; /* Add padding for text spacing */
-    box-shadow: 0 9px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    transition: all 0.3s ease; /* Smooth animations for hover/focus */
+    font-size: 3vh;
+    background-color: gainsboro;
+    border: var(--custom-border);
+    border-radius: 25px; 
+    outline: none; 
+    padding: 0 15px; 
+    box-shadow: 0 9px 9px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease; 
 }
 
-/* Placeholder text style */
 #search-bar::placeholder {
-    color: #aaa; /* Lighter color for the placeholder */
-    font-style: italic; /* Italicize the placeholder */
+    color: #aaa; 
+    font-style: italic; 
 }
 
-/* Hover effect */
 #search-bar:hover {
-    border-color: #000000; /* Darker border on hover */
-    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5); /* Enhance shadow */
+    border-color: #000000;
+    box-shadow: 0 9px 9px rgba(0, 0, 0, 0.6);
 }
 
-/* Focus effect */
 #search-bar:focus {
-    border-color: #000000; /* Highlight border on focus */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow */
-    background-color: #f9f9f9; /* Optional: Slight background color change */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    background-color: #f9f9f9; 
 }
 
-#results {
-    width: 90%;
-    height: 70%;
-    border: 1px solid #ccc;
-
-    /* BORDER STYLING  */
-    border: 5px solid #000000; /* Add a border with a nice color */
-    outline: none; /* Remove the default outline on focus */
-}
-
+/*  DISPLAY TEAMS */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
     grid-auto-rows: 100px;
-    /* gap: 5px; */
+    grid-template-columns: repeat(5, 1fr);
     height: 28vh;
     overflow-y: scroll;
     width: 90%;
     background-color: #e3e4f0;
-
-
-    /* BORDER STYLING  */
-    border: 5px solid #000; /* Add a border with a nice color */
-    outline: none; /* Remove the default outline on focus */
+    border: var(--custom-border);
+    outline: none; 
 }
 
 .grid-item {
@@ -184,37 +152,31 @@ h2 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-    /* BORDER THIN STYLING  */
-    outline: none; /* Remove the default outline on focus */
-
-    padding: 5px;
-    text-align: center;
-    font-size: 14px;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
+    outline: none; 
+    font-size: 0.9rem;
     user-select: none;
-
+    transition: all 0.3s ease-in-out;
 }
 
 .grid-item img {
     max-width: 40px;
     max-height: 40px;
-    margin-bottom: 5px;
+    margin-bottom:7px;
 }
 
 .grid-item:hover {
-    background-color: #adaeb9;
-    transform: scale(1.1);
+    background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-size: 120%;
-    font-weight: bold;  /* This makes the text bold on hover */
+    font-size: 105%;
+    font-weight: bold; 
 }
 
+/*  TEAM SELECTION DISPLAY */
 .outcome-container {
     display: flex;
     align-items: center;
-    margin-top: -3vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
 
 .teams-container {
@@ -230,47 +192,32 @@ h2 {
     width: auto;}
 
 .team-name {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-size: 200%;
-    font-style: normal;
-    padding-top: -5vh; 
+    font-weight: 500;
+    font-size: clamp(1rem, 5vh, 2rem);
+    margin: 0.75rem 0;;
 }
 
-#action-btns-homepage {
+/*  ACTION BUTTONS */
+#action-btns-container {
     display: flex;
     flex-direction: column;
-    width: 30%;
     align-items: center;
-    justify-content: center;
-    gap: 2rem;
 }
 
 .action-btns {
-    text-align: center;
-    font-size: 200%;
-
-    /* BORDER STYLING  */
-    border: 5px solid #000000; /* Add a border with a nice color */
-    border-radius: 25px; /* Rounded corners */
-    outline: none; /* Remove the default outline on focus */
-
-    box-shadow: 0 9px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    transition: all 0.3s ease; /* Smooth animations for hover/focus */
+    font-size: 150%;
+    border: var(--custom-border);
+    border-radius: 25px;
+    outline: none;
+    box-shadow: 0 9px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin: 10px 0;
+    width: clamp(16rem, 20vw, 20vw);
+    height: clamp(4rem, 8vh, 10vh);
+    font-size: clamp(1rem, 4vh, 2rem);
 }
 
 .action-btns:hover {
-    /* Hover effect */
-    border-color: #000000; /* Darker border on hover */
-    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5); /* Enhance shadow */
-}
-
-#fetch-lineups-btn {
-    width: 80%;
-    background-color: #aaa;
-}
-
-#reset-btn {
-    width: 50%;
-    background-color: #aaa;
+    border-color: #000000; 
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5); 
 }
