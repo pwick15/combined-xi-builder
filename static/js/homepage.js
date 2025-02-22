@@ -143,3 +143,21 @@ class TeamSelector {
 // Instantiate and initialize the TeamSelector class
 const teamSelector = new TeamSelector();
 teamSelector.initialize();
+
+window.addEventListener('resize', updateGridHeight);
+window.addEventListener('load', updateGridHeight);
+
+function updateGridHeight() {
+    const vh = window.innerHeight;
+    let multiple = 2;
+
+    // Start at 2 rows for heights <= 691px
+    if (vh > 691) {
+        multiple = Math.min(6, 2 + Math.floor((vh - 691) / 100));
+    }
+    
+
+    // Set the new height as a multiple of 100px
+    const gridContainer = document.querySelector('.grid-container');
+    gridContainer.style.height = `calc(100px * ${multiple})`;
+}

@@ -1,0 +1,7 @@
+FEATURES
+- Transition to FotMob
+- Improve design of cards (even just a transparent ball in the background)
+- Allow selection of any player for any position, but show in preferential order (i.e. if you select Defender, show all natural defenders first, but show midfielders and forwards in other tabs)
+- Add live injury updates
+- Add player information when you hover / select a player
+- Add instructions on home screen to guide user to select two teams (make 'Choose Lineups' button invisible until two teams chosen)

@@ -46,12 +46,12 @@ class CombinedXIViewer {
         }, 3000);
 
         document.getElementById("loading-page").style.display = "flex";
-        document.getElementById("content-container").style.display = "none";
+        document.getElementById("main-container").style.display = "none";
     }
 
     stopLoadingScreen() {
         document.getElementById("loading-page").style.display = "none";
-        document.getElementById("content-container").style.display = "block";
+        document.getElementById("main-container").style.display = "block";
         clearInterval(this.messageInterval);
     }
 
