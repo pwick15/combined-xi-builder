@@ -164,11 +164,13 @@ class CombinedXIViewer {
 
         const container = document.getElementById("slider");
         container.innerHTML = ""; // Clear previous selections
+        container.style = `--quantity: ${posList.length}`;
 
         posList.forEach(player => {
             const card = this.createPlayerCard(player, posID);
             container.appendChild(card);
         });
+        this.count = 0;
 
         const closeBtn = document.getElementById("close-btn");
         closeBtn.addEventListener("click", () => this.closePopup());
@@ -217,7 +219,6 @@ class CombinedXIViewer {
     getTeamImage(teamName) {
         console.log("attempting to get team image!")
         console.log(teamName);
-        console.log(this.teamInfo);
 
         if (teamName === this.teamInfo.team1Name) return this.formatImageString(this.teamInfo.team1Image);
         if (teamName === this.teamInfo.team2Name) return this.formatImageString(this.teamInfo.team2Image);
@@ -297,3 +298,4 @@ document.addEventListener("DOMContentLoaded", function () {
         slider.style.transform = `perspective(1000px) rotateX(-16deg) rotateY(${angle}deg)`;
     });
 });
+

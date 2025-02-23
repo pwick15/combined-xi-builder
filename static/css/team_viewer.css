@@ -221,29 +221,36 @@ body.popup-active::before {
 }
 
 #popup-contents {
-    gap: 20px; /* Larger spacing between grid items */
-    overflow-y: auto;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 20px;
 }
 
-#popup-contents #slider{
+#player-groups {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    height: 100px;
+}
+
+#slider {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    perspective: 1000px; /* Keep the 3D effect */
+}
+
+#player-pick-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    height: 100px;
+}
+
+#slider .item {
     position: absolute;
-    top: 10%;
-    left: calc(50% + 10vw);
-    transform-style: preserve-3d;
-    transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
-    z-index: 2;
-    transition: transform 0.5s ease-in-out; /* Smooth transition */
-}
-
-#popup-contents #slider .item{
-    position: absolute;
-    inset: 0 0 0 0;
-    transform: 
-        rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-        translateZ(40vw);
-}
-
-#popup-contents #slider .item p {
-    backface-visibility: hidden;
-}
+    transform: rotateY(calc(var(--position) * (360 / var(--quantity)) * 1deg)) 
+                    translateZ(20vw);}
