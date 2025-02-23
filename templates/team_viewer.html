@@ -11,12 +11,21 @@
 </head>
 <body>
     <div id="popup" class="popup">
-        <div class="popup-content">
-            <h2>Player Select</h2>
-            <div id="popup-player-options">
+        <h2>Player Select</h2>
+        <div id="popup-contents">
+            <div id="player-groups">
+                <button id="all-players"></button>
+                <button id="def-players"></button>
+                <button id="mid-players"></button>
+                <button id="for-players"></button>
             </div>
-            <button id="close-btn">Close</button>
+            <div id="slider" style="--quantity: 10"></div>  
+            <div id="player-pick-nav">
+                <button class="player-select-btn" id="left-btn">LEFT</button>
+                <button class="player-select-btn" id="right-btn">RIGHT</button>  
+            </div>
         </div>
+        <button id="close-btn">Close</button>
     </div>
     <div id="loading-page">
         <h1 id="title-top">COMBINED XI </h1>

@@ -24,6 +24,7 @@ class CombinedXIViewer {
             cdm: 0, cm: 0, cam: 0, lw: 0, rw: 0, st: 0
         };
 
+        this.count = 0;
         this.init();
     }
 
@@ -35,7 +36,7 @@ class CombinedXIViewer {
         console.log("fetching team data");
         
         this.addPlayerSelectionListeners();
-        console.log("adding plauer selection listeners")
+        console.log("adding player selection listeners")
     }
 
     setupLoadingScreen() {
@@ -161,7 +162,7 @@ class CombinedXIViewer {
             console.log(posList);
         }
 
-        const container = document.getElementById("popup-player-options");
+        const container = document.getElementById("slider");
         container.innerHTML = ""; // Clear previous selections
 
         posList.forEach(player => {
@@ -177,7 +178,9 @@ class CombinedXIViewer {
 
     createPlayerCard(player, posID) {
         const card = document.createElement("div");
-        card.className = "fifa-card";
+        card.className = "fifa-card item";
+        card.style = `--position: ${this.count++}`;
+        console.log(card)
 
         // Player image
         const playerImg = document.createElement("img");
@@ -206,6 +209,7 @@ class CombinedXIViewer {
         badgeWrapper.appendChild(teamImg);
         card.appendChild(badgeWrapper);
         
+        console.log("finished creating player")
         card.addEventListener("click", () => this.confirmPlayerSelection(player, posID));
         return card;
     }
@@ -275,3 +279,21 @@ class CombinedXIViewer {
 
 // Instantiate the class
 new CombinedXIViewer();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const slider = document.getElementById("slider");
+    const leftBtn = document.getElementById("left-btn");
+    const rightBtn = document.getElementById("right-btn");
+    
+    let angle = 0; // Track rotation angle
+    const step = 36; // 360° / 10 images = 36° per step
+
+    leftBtn.addEventListener("click", function () {
+        angle += step; // Rotate left (counter-clockwise)
+        slider.style.transform = `perspective(1000px) rotateX(-16deg) rotateY(${angle}deg)`;
+    });
+    rightBtn.addEventListener("click", function () {
+        angle -= step; // Rotate right (clockwise)
+        slider.style.transform = `perspective(1000px) rotateX(-16deg) rotateY(${angle}deg)`;
+    });
+});
