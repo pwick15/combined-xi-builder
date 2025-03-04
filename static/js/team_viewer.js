@@ -285,17 +285,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const slider = document.getElementById("slider");
     const leftBtn = document.getElementById("left-btn");
     const rightBtn = document.getElementById("right-btn");
+
+    // Retrieve the CSS variable value
+    let quantityStr = getComputedStyle(slider).getPropertyValue("--quantity").trim();
+    console.log("String value:", quantityStr);
+
+    // Convert to an integer
+    let quantityFloat = parseFloat(quantityStr);
+    console.log("Float value:", quantityFloat);
+    console.log("Step value:", 360 / quantityFloat);
     
     let angle = 0; // Track rotation angle
-    const step = 36; // 360° / 10 images = 36° per step
+    const step = 30; // 360° / 10 images = 36° per step
 
     leftBtn.addEventListener("click", function () {
+
+
+
+
         angle += step; // Rotate left (counter-clockwise)
-        slider.style.transform = `perspective(1000px) rotateX(-16deg) rotateY(${angle}deg)`;
+        slider.style.transform = `perspective(1200px) rotateX(-11deg) rotateY(${angle}deg)`;
     });
     rightBtn.addEventListener("click", function () {
         angle -= step; // Rotate right (clockwise)
-        slider.style.transform = `perspective(1000px) rotateX(-16deg) rotateY(${angle}deg)`;
+        slider.style.transform = `perspective(1200px) rotateX(-11deg) rotateY(${angle}deg)`;
     });
 });
 
