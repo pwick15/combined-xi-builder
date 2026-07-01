@@ -1,6 +1,5 @@
 # Combined XI Builder
 
-## Description
 The **Combined XI Builder** is a web-based tool for football fans to create a combined starting eleven from two selected teams. Built using **Flask**, this tool allows users to pick teams, choose lineups, and generate a visual representation of the best possible squad from both sides.
 
 ### Team Selection Screen
